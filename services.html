@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Services | SD Staffing Solutions</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif']
+          },
+          colors: {
+            sd: {
+              pink: 'rgb(233, 30, 99)',
+              dark: '#0f172a',
+              light: '#f8fafc',
+              blue: 'rgb(66, 165, 245)',
+              indigo: '#5c6bc0'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ✅ CRITICAL FIX: Prevent Horizontal Scroll */
+    html,
+    body {
+      overflow-x: hidden;
+      max-width: 100vw;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #e91e63;
+      border-radius: 4px;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    .page-top-space {
+      padding-top: 80px;
+    }
+
+    @media (min-width: 768px) {
+      .page-top-space {
+        padding-top: 140px;
+      }
+    }
+  </style>
+</head>
+
+
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+  <div class="hidden md:block fixed top-0 left-0 w-full z-[60] bg-sd-dark text-white py-2 text-xs">
+    <div class="container mx-auto px-6 flex justify-between items-center">
+      <div class="flex space-x-6">
+        <a href="tel:+919482323XXX" class="hover:text-sd-pink transition">
+          <i class="fas fa-phone-alt text-sd-pink mr-2"></i> +91 94823 23XXX
+        </a>
+        <a href="mailto:info@sdstaffing.com" class="hover:text-sd-pink transition">
+          <i class="fas fa-envelope text-sd-pink mr-2"></i> info@sdstaffing.com
+        </a>
+      </div>
+      <div class="flex space-x-4">
+        <a href="#" class="hover:text-sd-pink transition"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="hover:text-sd-pink transition"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="hover:text-sd-pink transition"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <header class="fixed w-full top-0 md:top-[32px] z-50 transition-all duration-300 glass-nav shadow-sm" id="navbar">
+    <div class="container mx-auto px-6 py-2 flex justify-between items-center relative">
+
+      <a href="index.html" class="flex items-center">
+        <img src="images/logo.png" alt="SD Staffing Logo" class="h-14 md:h-24 w-auto object-contain">
+      </a>
+
+      <nav class="hidden md:flex items-center space-x-8 font-semibold text-[16px]">
+        <a href="index.html" class="text-sd-pink hover:text-sd-pink transition duration-300">Home</a>
+        <a href="about.html" class="text-sd-blue hover:text-sd-pink transition duration-300">About</a>
+
+        <div class="relative group h-full">
+          <a href="services.html" class="flex items-center text-sd-blue hover:text-sd-pink transition duration-300 h-full py-2">
+            Services <i class="fas fa-chevron-down ml-1 text-xs"></i>
+          </a>
+          <div class="absolute left-0 top-full mt-0 w-64 bg-white border-t-2 border-sd-pink shadow-xl hidden group-hover:block rounded-b-md z-50">
+            <ul class="flex flex-col text-sm divide-y divide-gray-100">
+              <li><a href="talent-acquisition.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Talent acquisition</a></li>
+              <li><a href="permanent-staffing.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Permanent Staffing</a></li>
+              <li><a href="contract-staffing.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Contract Staffing</a></li>
+              <li><a href="performance-management.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Performance Management</a></li>
+              <li><a href="training-development.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Training & Development</a></li>
+              <li><a href="payroll-outsourcing.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Payroll Outsourcing</a></li>
+              <li><a href="on-site-hr-outsourcing.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">On-site HR Outsourcing</a></li>
+              <li><a href="hr-audit.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">HR Audit</a></li>
+              <li><a href="statutory-compliance.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Statutory Compliance</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <a href="contact.html" class="text-sd-blue hover:text-sd-pink transition duration-300">Contact</a>
+        <a href="job.html" class="text-sd-blue hover:text-sd-blue transition duration-300">Jobs</a>
+
+        <button id="enquiryBtnDesktop" type="button" class="px-5 py-2.5 rounded-full bg-sd-pink text-white font-bold shadow-lg hover:bg-pink-600 transition">
+          Enquiry
+        </button>
+      </nav>
+
+      <button id="mobileMenuToggle" class="md:hidden text-2xl text-sd-blue p-2 focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t z-40 h-[90vh] overflow-y-auto pb-20">
+      <div class="p-6 flex flex-col space-y-4 font-semibold text-gray-700">
+        <a href="index.html" class="block py-2 border-b border-gray-50">Home</a>
+        <a href="about.html" class="block py-2 border-b border-gray-50">About us</a>
+
+        <div class="block border-b border-gray-50">
+          <div class="flex items-center justify-between">
+            <a href="services.html" class="flex-1 py-2 text-gray-700 hover:text-sd-pink transition">Services</a>
+            
+            <button id="mobileServicesBtn" type="button" class="p-3 text-sd-blue focus:outline-none">
+              <i id="mobileServicesIcon" class="fas fa-chevron-down text-xs transition-transform duration-300"></i>
+            </button>
+          </div>
+
+          <div id="mobileServicesList" class="hidden flex-col space-y-3 pb-4 pl-4 border-l-2 border-sd-pink/20">
+            <a href="talent-acquisition.html" class="text-slate-500 hover:text-sd-pink text-sm block">Talent acquisition</a>
+            <a href="permanent-staffing.html" class="text-slate-500 hover:text-sd-pink text-sm block">Permanent Staffing</a>
+            <a href="contract-staffing.html" class="text-slate-500 hover:text-sd-pink text-sm block">Contract Staffing</a>
+            <a href="performance-management.html" class="text-slate-500 hover:text-sd-pink text-sm block">Performance Management</a>
+            <a href="training-development.html" class="text-slate-500 hover:text-sd-pink text-sm block">Training & Development</a>
+            <a href="payroll-outsourcing.html" class="text-slate-500 hover:text-sd-pink text-sm block">Payroll Outsourcing</a>
+            <a href="on-site-hr-outsourcing.html" class="text-slate-500 hover:text-sd-pink text-sm block">On-site HR Outsourcing</a>
+            <a href="hr-audit.html" class="text-slate-500 hover:text-sd-pink text-sm block">HR Audit</a>
+            <a href="statutory-compliance.html" class="text-slate-500 hover:text-sd-pink text-sm block">Statutory Compliance</a>
+            <a href="services.html" class="text-sd-pink font-bold text-sm mt-2 block">View All Services →</a>
+          </div>
+        </div>
+
+        <a href="contact.html" class="block py-2 border-b border-gray-50">Contact</a>
+        <a href="job.html" class="block py-2 border-b border-gray-50">Jobs</a>
+
+        <button id="enquiryBtnMobile" type="button" class="mt-4 w-full px-5 py-3 rounded-xl bg-sd-pink text-white font-bold shadow">
+          Enquiry
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-top-space w-full overflow-x-hidden">
+
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-sd-pink/10 via-white to-sd-blue/10"></div>
+
+      <div class="container mx-auto px-6 py-14 md:py-20 relative">
+        <div class="max-w-3xl mx-auto text-center hero-content">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider">
+            <i class="fas fa-briefcase text-sd-pink"></i> Our Services
+          </div>
+
+          <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mt-6 leading-tight">
+            Comprehensive <span class="text-transparent bg-clip-text bg-gradient-to-r from-sd-pink to-purple-600">HR Solutions</span>
+          </h1>
+
+          <p class="text-slate-600 mt-5 leading-relaxed text-lg max-w-2xl mx-auto">
+            End-to-end staffing, payroll, compliance, training, and HR consulting—tailored to your business.
+          </p>
+
+          <div class="flex flex-wrap justify-center gap-4 mt-8">
+            <a href="#service-grid" class="px-6 py-3 rounded-full bg-sd-pink text-white font-bold hover:bg-pink-600 transition">
+              Explore Services
+            </a>
+            <button id="enquiryBtnHero" type="button" class="px-6 py-3 rounded-full bg-white border border-slate-200 text-slate-800 font-bold hover:bg-slate-50 transition">
+              Enquiry
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="service-grid" class="py-16 md:py-20 bg-white scroll-mt-32">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <div class="grid lg:grid-cols-3 gap-6">
+
+          <a href="contract-staffing.html">
+            <div class="service-card rounded-2xl border border-slate-100 bg-white p-7 shadow-sm hover:shadow-md transition h-full">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                <i class="fas fa-handshake text-sd-blue"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mt-5">Contract Staffing</h3>
+              <p class="text-slate-600 text-sm leading-relaxed mt-3">
+                Flexible workforce solutions for projects, seasonal needs, and peak workloads.
+              </p>
+            </div>
+          </a>
+
+          <a href="permanent-staffing.html">
+            <div class="service-card rounded-2xl border border-slate-100 bg-gradient-to-br from-sd-pink to-purple-600 p-7 text-white shadow-sm hover:shadow-md transition h-full">
+              <div class="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center">
+                <i class="fas fa-user-check"></i>
+              </div>
+              <h3 class="text-xl font-bold mt-5">Permanent Staffing</h3>
+              <p class="text-white/90 text-sm leading-relaxed mt-3">
+                Hire the right talent for long-term growth with structured screening and interviews.
+              </p>
+            </div>
+          </a>
+
+          <a href="performance-management.html">
+            <div class="service-card rounded-2xl border border-slate-100 bg-white p-7 shadow-sm hover:shadow-md transition h-full">
+              <div class="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center">
+                <i class="fas fa-chart-line text-sd-pink"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mt-5">Performance Management</h3>
+              <p class="text-slate-600 text-sm leading-relaxed mt-3">
+                Improve productivity with goal setting, evaluations, and performance frameworks.
+              </p>
+            </div>
+          </a>
+
+          <a href="talent-acquisition.html">
+            <div class="service-card rounded-2xl border border-slate-100 bg-white p-7 shadow-sm hover:shadow-md transition h-full">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                <i class="fas fa-magnifying-glass text-sd-blue"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mt-5">Talent Acquisition</h3>
+              <p class="text-slate-600 text-sm leading-relaxed mt-3">
+                End-to-end recruitment: sourcing, screening, scheduling, and hiring closure.
+              </p>
+            </div>
+          </a>
+
+          <a href="payroll-outsourcing.html">
+            <div class="service-card rounded-2xl border border-slate-100 bg-white p-7 shadow-sm hover:shadow-md transition h-full">
+              <div class="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center">
+                <i class="fas fa-money-check-dollar text-sd-pink"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mt-5">Payroll Management</h3>
+              <p class="text-slate-600 text-sm leading-relaxed mt-3">
+                Accurate payroll processing with statutory deductions, payslips, and compliance.
+              </p>
+            </div>
+          </a>
+
+          <a href="training-development.html">
+            <div class="service-card rounded-2xl border border-slate-100 bg-white p-7 shadow-sm hover:shadow-md transition h-full">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                <i class="fas fa-chalkboard-user text-sd-blue"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mt-5">Training & Development</h3>
+              <p class="text-slate-600 text-sm leading-relaxed mt-3">
+                Upskill teams with onboarding, soft skills, safety, and role-specific modules.
+              </p>
+            </div>
+          </a>
+
+          <a href="on-site-hr-outsourcing.html">
+            <div class="service-card rounded-2xl border border-slate-100 bg-white p-7 shadow-sm hover:shadow-md transition h-full">
+              <div class="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center">
+                <i class="fas fa-building-user text-sd-pink"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mt-5">On-site HR Outsourcing</h3>
+              <p class="text-slate-600 text-sm leading-relaxed mt-3">
+                Dedicated HR support at your location for operations and HR administration.
+              </p>
+            </div>
+          </a>
+
+          <a href="statutory-compliance.html">
+            <div class="service-card rounded-2xl border border-slate-100 bg-white p-7 shadow-sm hover:shadow-md transition h-full">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                <i class="fas fa-scale-balanced text-sd-blue"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mt-5">Statutory Compliance</h3>
+              <p class="text-slate-600 text-sm leading-relaxed mt-3">
+                Support for labor law compliance and documentation to reduce risk.
+              </p>
+            </div>
+          </a>
+
+          <a href="hr-audit.html">
+            <div class="service-card rounded-2xl border border-slate-100 bg-white p-7 shadow-sm hover:shadow-md transition h-full">
+              <div class="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center">
+                <i class="fas fa-clipboard-check text-sd-pink"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mt-5">HR Audit</h3>
+              <p class="text-slate-600 text-sm leading-relaxed mt-3">
+                Review policies and HR records to identify gaps and improve efficiency.
+              </p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="py-14 bg-slate-50 border-t border-slate-100">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <div class="rounded-3xl bg-gradient-to-r from-sd-pink to-purple-600 p-10 md:p-14 text-white text-center shadow-xl">
+          <h2 class="text-2xl md:text-4xl font-bold">Need the right HR solution for your business?</h2>
+          <p class="mt-3 text-white/90 max-w-2xl mx-auto">
+            Tell us your requirement and we’ll recommend the best staffing / payroll / compliance plan.
+          </p>
+          <div class="mt-7 flex flex-wrap justify-center gap-4">
+            <button id="enquiryBtnCTA" type="button" class="bg-white text-sd-pink px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition shadow">
+              <i class="fas fa-paper-plane mr-2"></i> Enquiry
+            </button>
+            <a href="about.html" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-sd-pink transition">
+              Learn About SD
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800 w-full">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+        <div>
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 bg-sd-pink rounded-xl flex items-center justify-center text-white font-bold">SD</div>
+            <div>
+              <p class="text-white font-bold text-lg leading-tight">SD Staffing</p>
+              <p class="text-xs text-slate-400">Staffing & HR Solutions</p>
+            </div>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed mb-6">
+            Connecting exceptional talent with top organizations. Fast hiring, reliable HR support, and compliant workforce solutions.
+          </p>
+          <div class="flex gap-3">
+            <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-sd-pink hover:text-white transition"><i class="fab fa-facebook-f text-xs"></i></a>
+            <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-sd-pink hover:text-white transition"><i class="fab fa-linkedin-in text-xs"></i></a>
+            <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-sd-pink hover:text-white transition"><i class="fab fa-instagram text-xs"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Services</h4>
+          <ul class="space-y-3 text-sm text-slate-400">
+            <li><a href="talent-acquisition.html" class="hover:text-sd-pink transition">Talent Acquisition</a></li>
+            <li><a href="permanent-staffing.html" class="hover:text-sd-pink transition">Permanent Staffing</a></li>
+            <li><a href="contract-staffing.html" class="hover:text-sd-pink transition">Contract Staffing</a></li>
+            <li><a href="payroll-outsourcing.html" class="hover:text-sd-pink transition">Payroll Outsourcing</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Quick Links</h4>
+          <ul class="space-y-3 text-sm text-slate-400">
+            <li><a href="about.html" class="hover:text-sd-pink transition">About Us</a></li>
+            <li><a href="training.html" class="hover:text-sd-pink transition">Training</a></li>
+            <li><a href="job.html" class="hover:text-sd-pink transition">Jobs</a></li>
+            <li><button id="enquiryBtnFooter" class="hover:text-sd-pink transition text-left">Enquiry</button></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Contact</h4>
+          <ul class="space-y-4 text-sm text-slate-400">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-map-marker-alt text-sd-pink mt-1"></i>
+              <span>Chikkathgour road,<br>Bangalore, India</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fas fa-phone-alt text-sd-pink"></i>
+              <a class="hover:text-sd-pink transition" href="tel:+916361852794">+91 63618 52794</a>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fas fa-envelope text-sd-pink"></i>
+              <a class="hover:text-sd-pink transition" href="mailto:info@sdstaffing.com">info@sdstaffing.com</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+        <p>&copy; 2024 SD Staffing Solutions. All Rights Reserved.</p>
+        <p>Designed by <span class="text-slate-300 font-semibold">SD Staffing</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="enquiryModal" class="fixed inset-0 z-[999] hidden">
+    <div id="enquiryBackdrop" class="absolute inset-0 bg-black/60"></div>
+
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+      <div id="enquiryBox" class="w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div class="px-6 py-4 border-b flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-sd-pink">SD Staffing</p>
+            <h3 class="text-lg font-bold text-slate-800">Quick Enquiry Form</h3>
+          </div>
+          <button id="enquiryClose" type="button" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 transition flex items-center justify-center">
+            <i class="fas fa-times text-slate-700"></i>
+          </button>
+        </div>
+
+        <form id="enquiryForm" class="p-6">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm font-semibold text-slate-700">Full Name</label>
+              <div class="mt-2 relative">
+                <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input required type="text" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Enter your name">
+              </div>
+            </div>
+
+            <div>
+              <label class="text-sm font-semibold text-slate-700">Phone</label>
+              <div class="mt-2 relative">
+                <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input required type="tel" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Enter your number">
+              </div>
+            </div>
+
+            <div>
+              <label class="text-sm font-semibold text-slate-700">Email</label>
+              <div class="mt-2 relative">
+                <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input required type="email" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Enter your email">
+              </div>
+            </div>
+
+            <div>
+              <label class="text-sm font-semibold text-slate-700">Requirement</label>
+              <div class="mt-2 relative">
+                <i class="fas fa-briefcase absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <select class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                  <option>Hiring / Staffing</option>
+                  <option>Job Seeker</option>
+                  <option>Training</option>
+                  <option>Payroll / Compliance</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <label class="text-sm font-semibold text-slate-700">Message</label>
+            <div class="mt-2 relative">
+              <i class="fas fa-message absolute left-4 top-4 text-slate-400"></i>
+              <textarea rows="4" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Tell us your requirement..."></textarea>
+            </div>
+          </div>
+
+          <div class="mt-5 flex flex-col md:flex-row gap-3">
+            <button type="submit" class="flex-1 py-3 rounded-xl bg-sd-pink text-white font-bold shadow-lg hover:bg-pink-600 transition">
+              Submit Enquiry
+            </button>
+            <button type="button" id="enquiryCancel" class="flex-1 py-3 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition">
+              Cancel
+            </button>
+          </div>
+
+          <p id="formSuccess" class="hidden text-center text-sm font-semibold text-green-600 mt-4">
+            ✅ Thanks! We received your enquiry.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+      // ✅ 1. Mobile Menu Toggle Logic
+      const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      if(mobileMenuToggle && mobileMenu) {
+        mobileMenuToggle.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+      }
+
+      // ✅ 2. Mobile Services Dropdown Logic
+      const mobileServicesBtn = document.getElementById('mobileServicesBtn');
+      const mobileServicesList = document.getElementById('mobileServicesList');
+      const mobileServicesIcon = document.getElementById('mobileServicesIcon');
+
+      if (mobileServicesBtn) {
+        mobileServicesBtn.addEventListener('click', () => {
+          // Toggle visibility
+          if (mobileServicesList.classList.contains('hidden')) {
+            mobileServicesList.classList.remove('hidden');
+            mobileServicesList.classList.add('flex');
+            mobileServicesIcon.style.transform = 'rotate(180deg)'; // Rotate arrow up
+            mobileServicesBtn.classList.add('text-sd-pink'); // Highlight text
+          } else {
+            mobileServicesList.classList.add('hidden');
+            mobileServicesList.classList.remove('flex');
+            mobileServicesIcon.style.transform = 'rotate(0deg)'; // Rotate arrow down
+            // Keep text pink on services page
+            mobileServicesBtn.classList.add('text-sd-pink'); 
+          }
+        });
+      }
+
+      // Navbar shadow
+      window.addEventListener("scroll", () => {
+        const navbar = document.getElementById("navbar");
+        if (!navbar) return;
+        if (window.scrollY > 50) navbar.classList.add("shadow-md");
+        else navbar.classList.remove("shadow-md");
+      });
+
+      // GSAP Animations
+      if (window.gsap) {
+        gsap.timeline().from(".hero-content > *", {
+          y: 24, opacity: 0, duration: 0.8, stagger: 0.12, ease: "power3.out"
+        });
+
+        gsap.from(".service-card", {
+          scrollTrigger: { trigger: "#service-grid", start: "top 85%" },
+          y: 22, opacity: 0, duration: 0.7, stagger: 0.08, ease: "power2.out",
+          immediateRender: false
+        });
+      }
+
+      // Modal Logic
+      const modal = document.getElementById("enquiryModal");
+      const box = document.getElementById("enquiryBox");
+      const backdrop = document.getElementById("enquiryBackdrop");
+      const closeBtn = document.getElementById("enquiryClose");
+      const cancelBtn = document.getElementById("enquiryCancel");
+
+      const openBtns = [
+        document.getElementById("enquiryBtnDesktop"),
+        document.getElementById("enquiryBtnMobile"),
+        document.getElementById("enquiryBtnHero"),
+        document.getElementById("enquiryBtnCTA")
+      ].filter(Boolean);
+
+      const openModal = () => {
+        modal.classList.remove("hidden");
+        document.body.classList.add("modal-open");
+        if (window.gsap) {
+          gsap.fromTo(backdrop, { opacity: 0 }, { opacity: 1, duration: 0.2 });
+          gsap.fromTo(box, { y: 22, opacity: 0, scale: 0.97 }, { y: 0, opacity: 1, scale: 1, duration: 0.28, ease: "power3.out" });
+        }
+      };
+
+      const closeModal = () => {
+        if (window.gsap) {
+          gsap.to(box, { y: 18, opacity: 0, scale: 0.98, duration: 0.18 });
+          gsap.to(backdrop, {
+            opacity: 0, duration: 0.18,
+            onComplete: () => {
+              modal.classList.add("hidden");
+              document.body.classList.remove("modal-open");
+            }
+          });
+        } else {
+          modal.classList.add("hidden");
+          document.body.classList.remove("modal-open");
+        }
+      };
+
+      openBtns.forEach(btn => btn.addEventListener("click", openModal));
+      closeBtn.addEventListener("click", closeModal);
+      cancelBtn.addEventListener("click", closeModal);
+      backdrop.addEventListener("click", closeModal);
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+      });
+
+      const form = document.getElementById("enquiryForm");
+      const success = document.getElementById("formSuccess");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        success.classList.remove("hidden");
+        form.reset();
+        setTimeout(() => {
+          success.classList.add("hidden");
+          closeModal();
+        }, 1200);
+      });
+    });
+  </script>
+
+</body>
+</html>
