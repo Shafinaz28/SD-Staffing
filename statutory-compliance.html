@@ -65,14 +65,45 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
+    /* Scrollbar */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #f1f1f1; }
     ::-webkit-scrollbar-thumb { background: #e91e63; border-radius: 4px; }
-    
-    body.modal-open { overflow: hidden; }
+    .custom-scroll::-webkit-scrollbar{width:5px;}
+    .custom-scroll::-webkit-scrollbar-track{background:#f1f5f9;border-radius:20px;}
+    .custom-scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:20px;}
     
     .page-top-space { padding-top: 80px; } 
     @media (min-width: 768px){ .page-top-space { padding-top: 140px; } }
+
+    /* --- Form Inputs (Modal) --- */
+    .widget-input{
+      width:100%;
+      padding:12px 12px 12px 42px;
+      border:1px solid #e2e8f0;
+      border-radius:12px;
+      font-size:14px;
+      outline:none;
+      transition:box-shadow .2s,border-color .2s,background-color .2s;
+      background:#fff;
+      color:#0f172a;
+    }
+    .widget-input:focus{
+      border-color:rgba(233,30,99,.65);
+      box-shadow:0 0 0 4px rgba(233,30,99,.12);
+    }
+    .widget-input::placeholder{color:#94a3b8;}
+
+    /* Error State Style */
+    .input-error {
+      border-color: rgb(239, 68, 68) !important;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+    }
+
+    /* Modal Animation */
+    .modal-enter{opacity:1;transform:translateY(0) scale(1);}
+    .modal-exit{opacity:0;transform:translateY(10px) scale(.98);}
+    .no-scroll{overflow:hidden;height:100vh;}
   </style>
 </head>
 
@@ -85,7 +116,7 @@
           <i class="fas fa-phone-alt text-sd-pink mr-2"></i>+919482323019
         </a>
         <a href="mailto:Info@sdstaffingsolutions.com" class="hover:text-sd-pink transition">
-          <i class="fas fa-envelope text-sd-pink mr-2"></i>Info@sdstaffingsolutions.com
+          <i class="fas fa-envelope text-sd-pink mr-2"></i> Info@sdstaffingsolutions.com
         </a>
       </div>
       <div class="flex space-x-4">
@@ -99,8 +130,8 @@
   <header class="fixed w-full top-0 md:top-[32px] z-50 transition-all duration-300 glass-nav shadow-sm" id="navbar">
     <div class="container mx-auto px-6 py-2 flex justify-between items-center relative">
 
-      <a href="index.html" class="flex items-center">
-        <img src="images/logo.png" alt="SD Staffing Logo" class="h-14 md:h-24 w-auto object-contain">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing Logo" class="h-8 md:h-12 w-auto object-contain">
       </a>
 
       <nav class="hidden md:flex items-center space-x-8 font-semibold text-[16px]">
@@ -234,7 +265,7 @@
             <h2 class="text-3xl font-bold text-sd-dark mb-6">Complete Compliance Management</h2>
             
             <div class="relative h-64 md:h-80 w-full rounded-2xl overflow-hidden mb-8 shadow-md group">
-              <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+              <img src="./images/meeting-financial-managers.jpg" 
                    alt="Statutory Compliance" 
                    class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
               <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
@@ -302,16 +333,16 @@
           </div>
 
           <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
-             <h4 class="text-lg font-bold text-sd-dark mb-2"><i class="fas fa-shield-halved text-sd-pink mr-2"></i> Why Compliance Matters?</h4>
-             <p class="text-slate-600 text-sm mb-3">
-               Non-compliance can lead to severe financial penalties, legal action, and reputational damage. Our dedicated compliance team ensures:
-             </p>
-             <ul class="list-disc list-inside text-slate-600 text-sm space-y-1">
-               <li>Timely filing of all returns.</li>
-               <li>Accurate calculation and remittance of dues.</li>
-               <li>Maintenance of all statutory registers and records.</li>
-               <li>Regular updates on changes in labor laws.</li>
-             </ul>
+              <h4 class="text-lg font-bold text-sd-dark mb-2"><i class="fas fa-shield-halved text-sd-pink mr-2"></i> Why Compliance Matters?</h4>
+              <p class="text-slate-600 text-sm mb-3">
+                Non-compliance can lead to severe financial penalties, legal action, and reputational damage. Our dedicated compliance team ensures:
+              </p>
+              <ul class="list-disc list-inside text-slate-600 text-sm space-y-1">
+                <li>Timely filing of all returns.</li>
+                <li>Accurate calculation and remittance of dues.</li>
+                <li>Maintenance of all statutory registers and records.</li>
+                <li>Regular updates on changes in labor laws.</li>
+              </ul>
           </div>
 
         </div>
@@ -319,150 +350,162 @@
     </div>
   </main>
 
-  <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800 w-full">
+<footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800 w-full">
     <div class="container mx-auto px-6">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
-        <div>
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 bg-sd-pink rounded-xl flex items-center justify-center text-white font-bold">SD</div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            
             <div>
-              <p class="text-white font-bold text-lg leading-tight">SD Staffing</p>
-              <p class="text-xs text-slate-400">Staffing & HR Solutions</p>
+                <div class="mb-6">
+                    <a href="index.html" class="inline-block">
+                        <img src="images/SD LOGO_ENHANCED PNG.png" 
+                             alt="SD Staffing" 
+                             class="h-12 w-auto object-contain">
+                    </a>
+                </div>
+
+                <p class="text-sm text-slate-400 leading-relaxed mb-6">
+                    Connecting exceptional talent with top organizations. Fast hiring, reliable HR support, and compliant workforce solutions.
+                </p>
+                <div class="flex gap-3">
+                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-facebook-f text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-linkedin-in text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-instagram text-sm"></i></a>
+                </div>
             </div>
-          </div>
-          <p class="text-sm text-slate-400 leading-relaxed mb-6">
-            Connecting exceptional talent with top organizations. Fast hiring, reliable HR support, and compliant workforce solutions.
-          </p>
-          <div class="flex gap-3">
-            <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-sd-pink hover:text-white transition"><i class="fab fa-facebook-f text-xs"></i></a>
-            <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-sd-pink hover:text-white transition"><i class="fab fa-linkedin-in text-xs"></i></a>
-            <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-sd-pink hover:text-white transition"><i class="fab fa-instagram text-xs"></i></a>
-          </div>
+
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Services</h4>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li><a href="talent-acquisition.html" class="hover:text-sd-pink transition">Talent Acquisition</a></li>
+                    <li><a href="permanent-staffing.html" class="hover:text-sd-pink transition">Permanent Staffing</a></li>
+                    <li><a href="contract-staffing.html" class="hover:text-sd-pink transition">Contract Staffing</a></li>
+                    <li><a href="payroll-outsourcing.html" class="hover:text-sd-pink transition">Payroll Outsourcing</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Quick Links</h4>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li><a href="about.html" class="hover:text-sd-pink transition">About Us</a></li>
+                    <li><a href="training.html" class="hover:text-sd-pink transition">Training</a></li>
+                    <li><a href="job.html" class="hover:text-sd-pink transition">Jobs</a></li>
+                    <li><button id="enquiryBtnFooter2" class="hover:text-sd-pink transition text-left" type="button">Enquiry</button></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Contact</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-map-marker-alt text-sd-pink mt-1"></i>
+                        <span>134/1, 4th cross, Chikkathogur Main Rd, Pragathi Nagar, Electronic City,<br>Bengaluru, Karnataka 560100</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-phone-alt text-sd-pink"></i>
+                        <a class="hover:text-sd-pink transition" href="tel:+919482323019">+91 94823 23019</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-envelope text-sd-pink"></i>
+                        <a class="hover:text-sd-pink transition" href="mailto:Info@sdstaffingsolutions.com">Info@sdstaffingsolutions.com</a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div>
-          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Services</h4>
-          <ul class="space-y-3 text-sm text-slate-400">
-            <li><a href="talent-acquisition.html" class="hover:text-sd-pink transition">Talent Acquisition</a></li>
-            <li><a href="permanent-staffing.html" class="hover:text-sd-pink transition">Permanent Staffing</a></li>
-            <li><a href="contract-staffing.html" class="hover:text-sd-pink transition">Contract Staffing</a></li>
-            <li><a href="payroll-outsourcing.html" class="hover:text-sd-pink transition">Payroll Outsourcing</a></li>
-          </ul>
+        <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-center gap-3 text-xs text-slate-500">
+            <p>&copy; 2024 SD Staffing Solutions. All Rights Reserved.</p>
         </div>
-
-        <div>
-          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Quick Links</h4>
-          <ul class="space-y-3 text-sm text-slate-400">
-            <li><a href="about.html" class="hover:text-sd-pink transition">About Us</a></li>
-            <li><a href="training.html" class="hover:text-sd-pink transition">Training</a></li>
-            <li><a href="job.html" class="hover:text-sd-pink transition">Jobs</a></li>
-            <li><button id="enquiryBtnFooter" class="hover:text-sd-pink transition text-left">Enquiry</button></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Contact</h4>
-          <ul class="space-y-4 text-sm text-slate-400">
-            <li class="flex items-start gap-3">
-              <i class="fas fa-map-marker-alt text-sd-pink mt-1"></i>
-              <span>Chikkathgour road,<br>Bangalore, India</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <i class="fas fa-phone-alt text-sd-pink"></i>
-              <a class="hover:text-sd-pink transition" href="tel:+919482323019">+919482323019</a>
-            </li>
-            <li class="flex items-center gap-3">
-              <i class="fas fa-envelope text-sd-pink"></i>
-              <a class="hover:text-sd-pink transition" href="mailto:Info@sdstaffingsolutions.com">Info@sdstaffingsolutions.com</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-        <p>&copy; 2024 SD Staffing Solutions. All Rights Reserved.</p>
-        <p>Designed by <span class="text-slate-300 font-semibold">SD Staffing</span></p>
-      </div>
     </div>
-  </footer>
+</footer>
 
-  <div id="enquiryModal" class="fixed inset-0 z-[999] hidden">
-    <div id="enquiryBackdrop" class="absolute inset-0 bg-black/60"></div>
+  <div id="enquiryModal" class="fixed inset-0 z-[100] hidden" aria-hidden="true" role="dialog" aria-modal="true">
+    <div id="enquiryBackdrop" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm opacity-0 transition-opacity duration-200"></div>
 
     <div class="relative min-h-screen flex items-center justify-center p-4">
-      <div id="enquiryBox" class="w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden">
-        <div class="px-6 py-4 border-b flex items-center justify-between">
-          <div>
-            <p class="text-xs font-bold uppercase tracking-wider text-sd-pink">SD Staffing</p>
-            <h3 class="text-lg font-bold text-slate-800">Quick Enquiry Form</h3>
+      <div id="enquiryBox" class="w-full max-w-[560px] bg-white rounded-3xl shadow-2xl overflow-hidden modal-exit transition-all duration-200">
+        <div class="bg-sd-dark px-5 py-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 flex items-center justify-center overflow-hidden">
+              <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing" class="h-7 w-auto object-contain">
+            </div>
+            <div>
+              <h3 class="text-white font-semibold text-base leading-tight">Enquiry / Application</h3>
+            </div>
           </div>
-          <button id="enquiryClose" type="button" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 transition flex items-center justify-center">
-            <i class="fas fa-times text-slate-700"></i>
+
+          <button id="enquiryCloseHeader" class="text-slate-300 hover:text-white transition" aria-label="Close" type="button">
+            <i class="fas fa-times"></i>
           </button>
         </div>
 
-        <form id="enquiryForm" class="p-6">
-          <div class="grid md:grid-cols-2 gap-4">
-            <div>
-              <label class="text-sm font-semibold text-slate-700">Full Name</label>
-              <div class="mt-2 relative">
-                <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input required type="text" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Enter your name">
-              </div>
+        <form id="enquiryForm" class="p-6 space-y-4 custom-scroll max-h-[78vh] overflow-y-auto" name="submit-to-google-sheet" novalidate>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="relative">
+              <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input required type="text" name="firstName" placeholder="First name *" class="widget-input" autocomplete="given-name">
             </div>
-
-            <div>
-              <label class="text-sm font-semibold text-slate-700">Phone</label>
-              <div class="mt-2 relative">
-                <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input required type="tel" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Enter your number">
-              </div>
-            </div>
-
-            <div>
-              <label class="text-sm font-semibold text-slate-700">Email</label>
-              <div class="mt-2 relative">
-                <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input required type="email" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Enter your email">
-              </div>
-            </div>
-
-            <div>
-              <label class="text-sm font-semibold text-slate-700">Requirement</label>
-              <div class="mt-2 relative">
-                <i class="fas fa-briefcase absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <select class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400">
-                  <option selected>Statutory Compliance</option>
-                  <option>Hiring / Staffing</option>
-                  <option>Job Seeker</option>
-                  <option>Training</option>
-                  <option>Payroll</option>
-                  <option>Other</option>
-                </select>
-              </div>
+            <div class="relative">
+              <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input required type="text" name="lastName" placeholder="Last name *" class="widget-input" autocomplete="family-name">
             </div>
           </div>
 
-          <div class="mt-4">
-            <label class="text-sm font-semibold text-slate-700">Message</label>
-            <div class="mt-2 relative">
-              <i class="fas fa-message absolute left-4 top-4 text-slate-400"></i>
-              <textarea rows="4" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Tell us your requirement..."></textarea>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="relative">
+              <i class="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input required type="email" name="email" placeholder="Email *" class="widget-input" autocomplete="email">
+            </div>
+            <div class="relative">
+              <i class="fas fa-phone absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input required type="tel" name="phone" placeholder="Phone (10 digits) *" class="widget-input"
+                     autocomplete="tel" inputmode="numeric"
+                     pattern="[6-9][0-9]{9}"
+                     title="Enter valid 10-digit Indian mobile number starting with 6-9">
             </div>
           </div>
 
-          <div class="mt-5 flex flex-col md:flex-row gap-3">
-            <button type="submit" class="flex-1 py-3 rounded-xl bg-sd-pink text-white font-bold shadow-lg hover:bg-pink-600 transition">
-              Submit Enquiry
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="relative">
+              <i class="fas fa-city absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input type="text" name="city" placeholder="City" class="widget-input" autocomplete="address-level2">
+            </div>
+            <div class="relative">
+              <i class="fas fa-briefcase absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <select name="position" class="widget-input text-slate-700 bg-white" required>
+                <option value="" disabled selected>Select position/service *</option>
+                <option value="Payroll / Compliance" selected>Payroll / Compliance</option>
+                <option value="Hiring / Staffing">Hiring / Staffing</option>
+                <option value="Job Seeker">Job Seeker</option>
+                <option value="Training">Training</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="relative">
+            <i class="fas fa-comment-alt absolute left-3 top-4 text-slate-400 text-sm"></i>
+            <textarea name="message" rows="3" placeholder="Additional info" class="widget-input resize-none pl-10"></textarea>
+          </div>
+
+          <label class="flex items-start gap-3 text-xs text-slate-500 pt-1 select-none">
+            <input id="termsCheck" name="terms" type="checkbox"
+              class="mt-0.5 h-4 w-4 rounded border-slate-300 text-sd-pink focus:ring-sd-pink/30" required />
+            <span>I accept the terms & conditions.</span>
+          </label>
+
+          <div class="flex flex-col sm:flex-row gap-3 sm:justify-end pt-1">
+            <button type="button" id="resetFormBtn"
+              class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2.5 px-5 rounded-2xl text-sm transition border border-slate-200">
+              Reset
             </button>
-            <button type="button" id="enquiryCancel" class="flex-1 py-3 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition">
-              Cancel
+            <button type="submit" id="submitBtn"
+              class="w-full sm:w-auto bg-sd-pink hover:bg-pink-600 text-white font-bold py-2.5 px-6 rounded-2xl text-sm transition shadow-soft hover:shadow-lg">
+              Send Application
             </button>
           </div>
 
-          <p id="formSuccess" class="hidden text-center text-sm font-semibold text-green-600 mt-4">
-            ✅ Thanks! We received your enquiry.
-          </p>
+          <p id="successMsg" class="hidden text-green-600 text-center text-sm font-bold pt-1">✅ Application Sent Successfully!</p>
+          <p id="errorMsg" class="hidden text-red-500 text-center text-sm font-bold pt-1">❌ Please fill all required fields.</p>
         </form>
       </div>
     </div>
@@ -470,54 +513,46 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // 1. Simple Scroll Shadow for Navbar
-      const navbar = document.getElementById("navbar");
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) {
-          navbar.classList.add("shadow-md", "bg-white/95");
-        } else {
-          navbar.classList.remove("shadow-md", "bg-white/95");
-        }
-      });
-
-      // 2. Mobile Menu Toggle Logic
+      // 1. Mobile Menu
       const mobileMenuToggle = document.getElementById('mobileMenuToggle');
       const mobileMenu = document.getElementById('mobile-menu');
-      
       if(mobileMenuToggle && mobileMenu) {
         mobileMenuToggle.addEventListener('click', () => {
           mobileMenu.classList.toggle('hidden');
         });
       }
 
-      // 3. Mobile Services Dropdown Logic
+      // 2. Mobile Services Dropdown
       const mobileServicesBtn = document.getElementById('mobileServicesBtn');
       const mobileServicesList = document.getElementById('mobileServicesList');
       const mobileServicesIcon = document.getElementById('mobileServicesIcon');
-
       if (mobileServicesBtn) {
         mobileServicesBtn.addEventListener('click', () => {
-          // Toggle visibility
-          if (mobileServicesList.classList.contains('hidden')) {
-            mobileServicesList.classList.remove('hidden');
-            mobileServicesList.classList.add('flex');
-            mobileServicesIcon.style.transform = 'rotate(180deg)'; // Rotate arrow up
-            mobileServicesBtn.classList.add('text-sd-pink'); // Highlight text
-          } else {
-            mobileServicesList.classList.add('hidden');
-            mobileServicesList.classList.remove('flex');
-            mobileServicesIcon.style.transform = 'rotate(0deg)'; // Rotate arrow down
-            mobileServicesBtn.classList.remove('text-sd-pink');
-          }
+          mobileServicesList.classList.toggle('hidden');
+          mobileServicesList.classList.toggle('flex');
+          mobileServicesIcon.classList.toggle('rotate-180');
         });
       }
+
+      // 3. Navbar shadow
+      window.addEventListener("scroll", () => {
+        const navbar = document.getElementById("navbar");
+        if (!navbar) return;
+        if (window.scrollY > 50) navbar.classList.add("shadow-md");
+        else navbar.classList.remove("shadow-md");
+      });
 
       // 4. Modal Logic
       const modal = document.getElementById("enquiryModal");
       const box = document.getElementById("enquiryBox");
       const backdrop = document.getElementById("enquiryBackdrop");
-      const closeBtn = document.getElementById("enquiryClose");
-      const cancelBtn = document.getElementById("enquiryCancel");
+      const closeHeader = document.getElementById("enquiryCloseHeader");
+
+      const form = document.getElementById("enquiryForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const successMsg = document.getElementById("successMsg");
+      const errorMsg = document.getElementById("errorMsg");
+      const resetFormBtn = document.getElementById("resetFormBtn");
 
       const openBtns = [
         document.getElementById("enquiryBtnDesktop"),
@@ -525,43 +560,112 @@
         document.getElementById("enquiryBtnFooter")
       ].filter(Boolean);
 
-      const openModal = () => {
+      function openModal() {
         modal.classList.remove("hidden");
-        document.body.classList.add("modal-open");
-        setTimeout(() => {
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("no-scroll");
+        
+        requestAnimationFrame(() => {
           backdrop.classList.remove("opacity-0");
-          box.classList.remove("opacity-0", "scale-95");
-          box.classList.add("scale-100");
-        }, 10);
-      };
+          box.classList.remove("modal-exit");
+          box.classList.add("modal-enter");
+        });
 
-      const closeModal = () => {
+        setTimeout(() => {
+          const first = form.querySelector('input[name="firstName"]');
+          if(first) first.focus();
+        }, 200);
+      }
+
+      function closeModal() {
         backdrop.classList.add("opacity-0");
-        box.classList.add("opacity-0", "scale-95");
-        box.classList.remove("scale-100");
+        box.classList.remove("modal-enter");
+        box.classList.add("modal-exit");
+        
         setTimeout(() => {
           modal.classList.add("hidden");
-          document.body.classList.remove("modal-open");
-        }, 300);
-      };
+          modal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("no-scroll");
+          form.reset();
+          successMsg.classList.add("hidden");
+          errorMsg.classList.add("hidden");
+          // Clear error styles
+          const inputs = form.querySelectorAll("input, select, textarea");
+          inputs.forEach(i => {
+             i.style.borderColor = "";
+             i.style.boxShadow = "";
+          });
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Send Application";
+        }, 220);
+      }
 
       openBtns.forEach(btn => btn.addEventListener("click", openModal));
-      closeBtn.addEventListener("click", closeModal);
-      cancelBtn.addEventListener("click", closeModal);
-      backdrop.addEventListener("click", closeModal);
+      closeHeader?.addEventListener("click", closeModal);
+      backdrop?.addEventListener("click", closeModal);
+      resetFormBtn?.addEventListener("click", () => {
+          form.reset();
+          successMsg.classList.add("hidden");
+          errorMsg.classList.add("hidden");
+      });
 
-      // Form Submit Simulation
-      const form = document.getElementById("enquiryForm");
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+      });
+
+      // ✅ GOOGLE SHEET SUBMISSION
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzjEbd45l1oRR3bF81rBSPp3PT5cles-Q41lZ1sz4FUVjbDHQzHBaTm874HF-sUf3pFrg/exec";
+
       form.addEventListener("submit", (e) => {
         e.preventDefault();
-        const successMsg = document.getElementById("formSuccess");
-        successMsg.classList.remove("hidden");
-        setTimeout(() => {
-          successMsg.classList.add("hidden");
-          closeModal();
-          form.reset();
-        }, 2000);
+
+        // 1. Reset Errors
+        const inputs = form.querySelectorAll("input, select, textarea");
+        inputs.forEach(input => {
+             input.style.borderColor = ""; 
+             input.style.boxShadow = "";
+        });
+        errorMsg.classList.add("hidden");
+        successMsg.classList.add("hidden");
+
+        // 2. Validate
+        let isValid = true;
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                isValid = false;
+                input.style.borderColor = "rgb(239, 68, 68)";
+                input.style.boxShadow = "0 0 0 4px rgba(239, 68, 68, 0.1)";
+            }
+        });
+
+        if (!isValid) {
+          errorMsg.textContent = "❌ Please fill all required fields.";
+          errorMsg.classList.remove("hidden");
+          return;
+        }
+
+        // 3. Submit
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
+
+        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+          .then(response => {
+            submitBtn.innerText = "Sent ✅";
+            successMsg.classList.remove("hidden");
+            // Reset styles
+            inputs.forEach(input => input.style.borderColor = "");
+            
+            setTimeout(closeModal, 1400);
+          })
+          .catch((err) => {
+            console.error("Error!", err);
+            errorMsg.textContent = "❌ Error. Please try again.";
+            errorMsg.classList.remove("hidden");
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Retry";
+          });
       });
+
     });
   </script>
 </body>

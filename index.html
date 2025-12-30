@@ -5,16 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>SD Staffing Solutions | Connecting Talent</title>
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
@@ -32,9 +28,7 @@
               indigo: '#5c6bc0'
             }
           },
-          boxShadow: {
-            soft: '0 10px 30px rgba(2,6,23,0.10)'
-          }
+          boxShadow: { soft: '0 10px 30px rgba(2,6,23,0.10)' }
         }
       }
     }
@@ -50,13 +44,16 @@
       position: relative;
       font-family: 'Outfit', sans-serif;
     }
+
     .glass-nav {
       background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(0,0,0,0.06);
     }
+
     .service-card { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
     .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(233, 30, 99, 0.15); }
+
     .blob-mask {
       border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
       transition: border-radius 5s ease-in-out;
@@ -66,23 +63,57 @@
       0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
       100% { border-radius: 40% 60% 65% 35% / 40% 60% 30% 70%; }
     }
+
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #f1f5f9; }
     ::-webkit-scrollbar-thumb { background: #e91e63; border-radius: 999px; }
-    body.modal-open { overflow: hidden; }
-    .page-top-space { padding-top: 80px; }
-    @media (min-width: 768px){ .page-top-space { padding-top: 140px; } }
+
+    .page-top-space { padding-top: 84px; }
+    @media (min-width: 768px){ .page-top-space { padding-top: 150px; } }
+
+    /* --- Modal + Form styles --- */
+    .widget-input{
+      width:100%;
+      padding:12px 12px 12px 42px;
+      border:1px solid #e2e8f0;
+      border-radius:12px;
+      font-size:14px;
+      outline:none;
+      transition:box-shadow .2s,border-color .2s,background-color .2s;
+      background:#fff;
+      color:#0f172a;
+    }
+    .widget-input:focus{
+      border-color:rgba(233,30,99,.65);
+      box-shadow:0 0 0 4px rgba(233,30,99,.12);
+    }
+    .widget-input::placeholder{color:#94a3b8;}
+
+    /* Error State Style */
+    .input-error {
+      border-color: rgb(239, 68, 68) !important;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+    }
+
+    .custom-scroll::-webkit-scrollbar{width:5px;}
+    .custom-scroll::-webkit-scrollbar-track{background:#f1f5f9;border-radius:20px;}
+    .custom-scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:20px;}
+
+    .modal-enter{opacity:1;transform:translateY(0) scale(1);}
+    .modal-exit{opacity:0;transform:translateY(10px) scale(.98);}
+
+    /* Prevent scroll when modal open */
+    .no-scroll{overflow:hidden;height:100vh;}
   </style>
 </head>
 
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
-  <!-- Top Bar -->
   <div class="hidden md:block fixed top-0 left-0 w-full z-[60] bg-sd-dark text-white py-2 text-xs">
     <div class="container mx-auto px-6 flex justify-between items-center">
       <div class="flex space-x-6">
         <a href="tel:+919482323019" class="hover:text-sd-pink transition">
-          <i class="fas fa-phone-alt text-sd-pink mr-2"></i> +919482323019
+          <i class="fas fa-phone-alt text-sd-pink mr-2"></i> +91 94823 23019
         </a>
         <a href="mailto:Info@sdstaffingsolutions.com" class="hover:text-sd-pink transition">
           <i class="fas fa-envelope text-sd-pink mr-2"></i> Info@sdstaffingsolutions.com
@@ -96,11 +127,10 @@
     </div>
   </div>
 
-  <!-- Header -->
   <header class="fixed w-full top-0 md:top-[32px] z-50 transition-all duration-300 glass-nav shadow-sm" id="navbar">
     <div class="container mx-auto px-6 py-3 flex justify-between items-center relative">
       <a href="index.html" class="flex items-center gap-3">
-        <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing Logo" class="h-12 md:h-16 w-auto object-contain">
+        <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing Logo" class="h-8 md:h-12 w-auto object-contain">
       </a>
 
       <nav class="hidden md:flex items-center space-x-8 font-semibold text-[16px]">
@@ -127,7 +157,7 @@
         </div>
 
         <a href="contact.html" class="text-sd-blue hover:text-sd-pink transition">Contact</a>
-        <a href="job.html" class="text-sd-blue hover:text-sd-blue transition">Jobs</a>
+        <a href="job.html" class="text-sd-blue hover:text-sd-pink transition">Jobs</a>
 
         <button id="enquiryBtnDesktop" type="button"
           class="px-5 py-2.5 rounded-full bg-sd-pink text-white font-bold shadow-soft hover:bg-pink-600 transition focus:outline-none focus:ring-4 focus:ring-pink-200">
@@ -140,7 +170,6 @@
       </button>
     </div>
 
-    <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t z-40 h-[90vh] overflow-y-auto pb-20">
       <div class="p-6 flex flex-col space-y-4 font-semibold text-gray-700">
         <a href="index.html" class="block py-2 border-b border-gray-50">Home</a>
@@ -181,7 +210,6 @@
 
   <main class="page-top-space w-full overflow-x-hidden">
 
-    <!-- Hero -->
     <section class="relative pb-20 lg:pb-28 w-full overflow-hidden">
       <div class="absolute top-0 right-0 w-1/2 h-full bg-sd-pink/5 z-0 transform skew-x-12 origin-top-right translate-x-1/4"></div>
 
@@ -212,7 +240,7 @@
           </div>
 
           <div class="hero-image-group w-full relative">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80"
               alt="Professional Team"
               class="w-full h-[320px] md:h-[520px] object-cover blob-mask shadow-2xl relative z-10">
           </div>
@@ -221,7 +249,6 @@
       </div>
     </section>
 
-    <!-- Stats -->
     <section class="bg-sd-dark py-12 text-white w-full overflow-hidden" id="stats">
       <div class="container mx-auto px-6">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-slate-700/50">
@@ -245,13 +272,12 @@
       </div>
     </section>
 
-    <!-- About -->
     <section id="about" class="py-20 md:py-24 bg-white relative scroll-mt-32 w-full overflow-hidden">
       <div class="container mx-auto px-6 max-w-6xl">
         <div class="grid md:grid-cols-2 gap-16 items-center">
           <div class="gsap-about-img relative order-2 md:order-1">
             <div class="absolute inset-0 bg-sd-blue transform translate-x-4 translate-y-4 rounded-2xl"></div>
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
               alt="Meeting" class="relative rounded-2xl shadow-2xl w-full">
           </div>
 
@@ -283,7 +309,6 @@
       </div>
     </section>
 
-    <!-- Services -->
     <section id="services" class="py-20 md:py-24 bg-slate-50 scroll-mt-32 w-full">
       <div class="container mx-auto px-6">
         <div class="text-center mb-16 max-w-2xl mx-auto">
@@ -323,7 +348,6 @@
       </div>
     </section>
 
-    <!-- Process -->
     <section id="process" class="py-24 bg-sd-dark text-white relative overflow-hidden scroll-mt-32 w-full">
       <div class="absolute top-0 left-0 w-full h-full opacity-10"
         style="background-image: radial-gradient(#42a5f5 1px, transparent 1px); background-size: 30px 30px;"></div>
@@ -361,7 +385,6 @@
       </div>
     </section>
 
-    <!-- Contact CTA -->
     <section id="contact" class="py-20 bg-white scroll-mt-32 w-full">
       <div class="container mx-auto px-6">
         <div class="bg-gradient-to-r from-sd-pink to-purple-600 rounded-3xl p-10 md:p-16 text-center text-white shadow-2xl relative overflow-hidden">
@@ -377,315 +400,173 @@
             <a href="mailto:Info@sdstaffingsolutions.com" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-sd-pink transition flex items-center justify-center">
               <i class="fas fa-envelope mr-2"></i> Send Email
             </a>
+            <button id="enquiryBtnFooter" type="button"
+              class="bg-white/10 border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-sd-pink transition flex items-center justify-center">
+              <i class="fas fa-paper-plane mr-2"></i> Enquiry
+            </button>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800 w-full">
+<footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800 w-full">
     <div class="container mx-auto px-6">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
-        <div>
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            
+            <div>
+                <div class="mb-6">
+                    <a href="index.html" class="inline-block">
+                        <img src="images/SD LOGO_ENHANCED PNG.png" 
+                             alt="SD Staffing" 
+                             class="h-12 w-auto object-contain">
+                    </a>
+                </div>
+
+                <p class="text-sm text-slate-400 leading-relaxed mb-6">
+                    Connecting exceptional talent with top organizations. Fast hiring, reliable HR support, and compliant workforce solutions.
+                </p>
+                <div class="flex gap-3">
+                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-facebook-f text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-linkedin-in text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-instagram text-sm"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Services</h4>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li><a href="talent-acquisition.html" class="hover:text-sd-pink transition">Talent Acquisition</a></li>
+                    <li><a href="permanent-staffing.html" class="hover:text-sd-pink transition">Permanent Staffing</a></li>
+                    <li><a href="contract-staffing.html" class="hover:text-sd-pink transition">Contract Staffing</a></li>
+                    <li><a href="payroll-outsourcing.html" class="hover:text-sd-pink transition">Payroll Outsourcing</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Quick Links</h4>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li><a href="about.html" class="hover:text-sd-pink transition">About Us</a></li>
+                    <li><a href="training.html" class="hover:text-sd-pink transition">Training</a></li>
+                    <li><a href="job.html" class="hover:text-sd-pink transition">Jobs</a></li>
+                    <li><button id="enquiryBtnFooter2" class="hover:text-sd-pink transition text-left" type="button">Enquiry</button></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Contact</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-map-marker-alt text-sd-pink mt-1"></i>
+                        <span>134/1, 4th cross, Chikkathogur Main Rd, Pragathi Nagar, Electronic City,<br>Bengaluru, Karnataka 560100</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-phone-alt text-sd-pink"></i>
+                        <a class="hover:text-sd-pink transition" href="tel:+919482323019">+91 94823 23019</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-envelope text-sd-pink"></i>
+                        <a class="hover:text-sd-pink transition" href="mailto:Info@sdstaffingsolutions.com">Info@sdstaffingsolutions.com</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-center gap-3 text-xs text-slate-500">
+            <p>&copy; 2024 SD Staffing Solutions. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+  <div id="enquiryModal" class="fixed inset-0 z-[100] hidden" aria-hidden="true" role="dialog" aria-modal="true">
+    <div id="enquiryBackdrop" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm opacity-0 transition-opacity duration-200"></div>
+
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+      <div id="enquiryBox" class="w-full max-w-[560px] bg-white rounded-3xl shadow-2xl overflow-hidden modal-exit transition-all duration-200">
+        <div class="bg-sd-dark px-5 py-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10  flex items-center justify-center overflow-hidden">
               <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing" class="h-7 w-auto object-contain">
             </div>
             <div>
-              <p class="text-white font-bold text-lg leading-tight">SD Staffing</p>
-              <p class="text-xs text-slate-400">Staffing & HR Solutions</p>
-            </div>
-          </div>
-          <p class="text-sm text-slate-400 leading-relaxed mb-6">
-            Connecting exceptional talent with top organizations. Fast hiring, reliable HR support, and compliant workforce solutions.
-          </p>
-          <div class="flex gap-3">
-            <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-facebook-f text-sm"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-linkedin-in text-sm"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-instagram text-sm"></i></a>
-          </div>
-        </div>
-
-        <div>
-          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Services</h4>
-          <ul class="space-y-3 text-sm text-slate-400">
-            <li><a href="talent-acquisition.html" class="hover:text-sd-pink transition">Talent Acquisition</a></li>
-            <li><a href="permanent-staffing.html" class="hover:text-sd-pink transition">Permanent Staffing</a></li>
-            <li><a href="contract-staffing.html" class="hover:text-sd-pink transition">Contract Staffing</a></li>
-            <li><a href="payroll-outsourcing.html" class="hover:text-sd-pink transition">Payroll Outsourcing</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Quick Links</h4>
-          <ul class="space-y-3 text-sm text-slate-400">
-            <li><a href="about.html" class="hover:text-sd-pink transition">About Us</a></li>
-            <li><a href="training.html" class="hover:text-sd-pink transition">Training</a></li>
-            <li><a href="job.html" class="hover:text-sd-pink transition">Jobs</a></li>
-            <li><button id="enquiryBtnFooter" class="hover:text-sd-pink transition text-left">Enquiry</button></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Contact</h4>
-          <ul class="space-y-4 text-sm text-slate-400">
-            <li class="flex items-start gap-3">
-              <i class="fas fa-map-marker-alt text-sd-pink mt-1"></i>
-              <span>Chikkathgour road,<br>Bangalore, India</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <i class="fas fa-phone-alt text-sd-pink"></i>
-              <a class="hover:text-sd-pink transition" href="tel:+919482323019">+919482323019</a>
-            </li>
-            <li class="flex items-center gap-3">
-              <i class="fas fa-envelope text-sd-pink"></i>
-              <a class="hover:text-sd-pink transition" href="mailto:Info@sdstaffingsolutions.com">Info@sdstaffingsolutions.com</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-        <p>&copy; 2024 SD Staffing Solutions. All Rights Reserved.</p>
-        <p>Designed by <span class="text-slate-300 font-semibold">SD Staffing</span></p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ✅ ENQUIRY MODAL (SAME AS JOB.HTML) -->
-  <div id="enquiryModal" class="fixed inset-0 z-[999] hidden">
-    <div id="enquiryBackdrop" class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm opacity-0 transition-opacity"></div>
-
-    <div class="relative min-h-screen flex items-center justify-center p-4">
-      <div id="enquiryBox" class="w-full max-w-[720px] bg-white rounded-3xl shadow-2xl overflow-hidden opacity-0 scale-[0.98] translate-y-2 transition-all duration-300">
-        <!-- Header -->
-        <div class="bg-sd-dark px-6 py-5 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center overflow-hidden">
-              <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing" class="h-7 w-auto object-contain" />
-            </div>
-            <div>
-              <p class="text-[11px] font-bold uppercase tracking-wider text-sd-pink">SD Staffing Solutions</p>
-              <h3 class="text-white font-semibold text-lg leading-tight">Quick Enquiry Form</h3>
-              <p class="text-slate-300 text-xs">We’ll get back within 24 hours</p>
+              <h3 class="text-white font-semibold text-base leading-tight">Enquiry / Job Application</h3>
             </div>
           </div>
 
-          <button id="enquiryClose" type="button"
-            class="w-10 h-10 rounded-2xl bg-white/10 hover:bg-white/15 transition flex items-center justify-center"
-            aria-label="Close enquiry form">
-            <i class="fas fa-times text-white/80"></i>
+          <button id="enquiryCloseHeader" class="text-slate-300 hover:text-white transition" aria-label="Close" type="button">
+            <i class="fas fa-times"></i>
           </button>
         </div>
 
-        <!-- Form -->
-        <form id="enquiryForm" class="p-6 md:p-7" name="submit-to-google-sheet">
-          <!-- Top info strip -->
-          <div class="mb-6 rounded-3xl border border-slate-200 bg-gradient-to-r from-slate-50 to-white p-4 md:p-5">
-            <div class="flex items-start gap-3">
-              <div class="w-10 h-10 rounded-2xl bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-sm">
-                <i class="fas fa-lock text-sd-blue"></i>
-              </div>
-              <div class="flex-1">
-                <p class="text-sm font-semibold text-slate-900">Quick enquiry — we respond within 24 hours</p>
-                <p class="text-xs text-slate-500 mt-0.5">
-                  Your details are protected and used only to contact you regarding your requirement.
-                </p>
-              </div>
-              <span class="hidden md:inline-flex items-center gap-2 text-[11px] font-semibold text-slate-600 bg-white px-3 py-1.5 rounded-full border border-slate-200">
-                <i class="fas fa-bolt text-yellow-500"></i> Fast Response
-              </span>
+        <form id="enquiryForm" class="p-6 space-y-4 custom-scroll max-h-[78vh] overflow-y-auto" novalidate>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="relative">
+              <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input required type="text" name="firstName" placeholder="First name *" class="widget-input" autocomplete="given-name">
+            </div>
+            <div class="relative">
+              <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input required type="text" name="lastName" placeholder="Last name *" class="widget-input" autocomplete="family-name">
             </div>
           </div>
 
-          <!-- Contact Details -->
-          <div class="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-            <div class="px-5 md:px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="w-9 h-9 rounded-2xl bg-white border border-slate-200 flex items-center justify-center">
-                  <i class="fas fa-id-card text-sd-pink"></i>
-                </span>
-                <div>
-                  <p class="text-sm font-bold text-slate-900 leading-tight">Contact Details</p>
-                  <p class="text-xs text-slate-500">Tell us who we should reach out to</p>
-                </div>
-              </div>
-              <p class="text-[11px] text-slate-500">
-                Fields marked <span class="text-sd-pink font-bold">*</span> are required
-              </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="relative">
+              <i class="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input required type="email" name="email" placeholder="Email *" class="widget-input" autocomplete="email">
             </div>
-
-            <div class="p-5 md:p-6">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label class="text-sm font-semibold text-slate-700">Full Name <span class="text-sd-pink">*</span></label>
-                  <div class="mt-2 relative">
-                    <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input required name="fullName" type="text"
-                      class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-200 bg-white
-                      focus:outline-none focus:ring-4 focus:ring-pink-100 focus:border-sd-pink transition
-                      placeholder:text-slate-400"
-                      placeholder="Your full name" />
-                  </div>
-                </div>
-
-                <div>
-                  <label class="text-sm font-semibold text-slate-700">Phone <span class="text-sd-pink">*</span></label>
-                  <div class="mt-2 relative">
-                    <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input required name="phone" type="tel" inputmode="tel"
-                      class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-200 bg-white
-                      focus:outline-none focus:ring-4 focus:ring-pink-100 focus:border-sd-pink transition
-                      placeholder:text-slate-400"
-                      placeholder="e.g., 94823 23019" />
-                  </div>
-                </div>
-
-                <div>
-                  <label class="text-sm font-semibold text-slate-700">Email <span class="text-sd-pink">*</span></label>
-                  <div class="mt-2 relative">
-                    <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input required name="email" type="email"
-                      class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-200 bg-white
-                      focus:outline-none focus:ring-4 focus:ring-pink-100 focus:border-sd-pink transition
-                      placeholder:text-slate-400"
-                      placeholder="you@company.com" />
-                  </div>
-                </div>
-
-                <div>
-                  <label class="text-sm font-semibold text-slate-700">City</label>
-                  <div class="mt-2 relative">
-                    <i class="fas fa-city absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input name="city" type="text"
-                      class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-200 bg-white
-                      focus:outline-none focus:ring-4 focus:ring-pink-100 focus:border-sd-pink transition
-                      placeholder:text-slate-400"
-                      placeholder="Bangalore" />
-                  </div>
-                </div>
-              </div>
+            <div class="relative">
+              <i class="fas fa-phone absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input required type="tel" name="phone" placeholder="Phone (10 digits) *"
+                class="widget-input" autocomplete="tel" inputmode="numeric"
+                pattern="[6-9][0-9]{9}" 
+                title="Enter valid 10-digit Indian mobile number starting with 6-9">
             </div>
           </div>
 
-          <!-- Requirement -->
-          <div class="mt-5 rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-            <div class="px-5 md:px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center gap-2">
-              <span class="w-9 h-9 rounded-2xl bg-white border border-slate-200 flex items-center justify-center">
-                <i class="fas fa-briefcase text-sd-blue"></i>
-              </span>
-              <div>
-                <p class="text-sm font-bold text-slate-900 leading-tight">Requirement</p>
-                <p class="text-xs text-slate-500">Select what you need so we route to the right team</p>
-              </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="relative">
+              <i class="fas fa-city absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input type="text" name="city" placeholder="City" class="widget-input" autocomplete="address-level2">
             </div>
-
-            <div class="p-5 md:p-6">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="md:col-span-2">
-                  <label class="text-sm font-semibold text-slate-700">Requirement <span class="text-sd-pink">*</span></label>
-                  <div class="mt-2 relative">
-                    <i class="fas fa-briefcase absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <select required name="requirement"
-                      class="w-full pl-11 pr-10 py-3.5 rounded-2xl border border-slate-200 bg-white
-                      focus:outline-none focus:ring-4 focus:ring-pink-100 focus:border-sd-pink transition
-                      appearance-none cursor-pointer text-slate-700">
-                      <option value="" disabled selected>Select your requirement</option>
-                      <option value="Hiring / Staffing">Hiring / Staffing</option>
-                      <option value="Job Seeker">Job Seeker</option>
-                      <option value="Training">Training</option>
-                      <option value="Payroll / Compliance">Payroll / Compliance</option>
-                      <option value="Other">Other</option>
-                    </select>
-                    <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
-                  </div>
-                </div>
-
-                <div class="md:col-span-2">
-                  <label class="text-sm font-semibold text-slate-700">Preferred Contact</label>
-                  <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <label class="group relative rounded-2xl border border-slate-200 bg-white p-4 cursor-pointer hover:bg-slate-50 transition">
-                      <input type="radio" name="preferredContact" value="Call" class="sr-only peer" checked />
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                          <span class="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center border border-blue-100">
-                            <i class="fas fa-phone text-sd-blue"></i>
-                          </span>
-                          <div>
-                            <p class="text-sm font-bold text-slate-900">Call</p>
-                            <p class="text-xs text-slate-500">Best for urgent requirements</p>
-                          </div>
-                        </div>
-                        <span class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center peer-checked:border-sd-pink peer-checked:bg-sd-pink transition">
-                          <span class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition"></span>
-                        </span>
-                      </div>
-                      <div class="absolute inset-0 rounded-2xl ring-0 peer-checked:ring-4 peer-checked:ring-pink-100 transition"></div>
-                    </label>
-
-                    <label class="group relative rounded-2xl border border-slate-200 bg-white p-4 cursor-pointer hover:bg-slate-50 transition">
-                      <input type="radio" name="preferredContact" value="WhatsApp" class="sr-only peer" />
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                          <span class="w-10 h-10 rounded-2xl bg-green-50 flex items-center justify-center border border-green-100">
-                            <i class="fab fa-whatsapp text-green-600"></i>
-                          </span>
-                          <div>
-                            <p class="text-sm font-bold text-slate-900">WhatsApp</p>
-                            <p class="text-xs text-slate-500">Quick updates & documents</p>
-                          </div>
-                        </div>
-                        <span class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center peer-checked:border-sd-pink peer-checked:bg-sd-pink transition">
-                          <span class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition"></span>
-                        </span>
-                      </div>
-                      <div class="absolute inset-0 rounded-2xl ring-0 peer-checked:ring-4 peer-checked:ring-pink-100 transition"></div>
-                    </label>
-                  </div>
-                </div>
-
-                <div class="md:col-span-2">
-                  <label class="text-sm font-semibold text-slate-700">Message</label>
-                  <div class="mt-2 relative">
-                    <i class="fas fa-message absolute left-4 top-4 text-slate-400"></i>
-                    <textarea name="message" rows="4"
-                      class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-200 bg-white
-                      focus:outline-none focus:ring-4 focus:ring-pink-100 focus:border-sd-pink transition resize-none
-                      placeholder:text-slate-400"
-                      placeholder="Example: Need 10+ candidates for BPO (Kannada/English), joining within 15 days..."></textarea>
-                  </div>
-                </div>
-              </div>
+            <div class="relative">
+              <i class="fas fa-briefcase absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <select name="position" class="widget-input text-slate-700 bg-white" required>
+                <option value="" disabled selected>Select position *</option>
+                <option value="Sales Officer">Sales Officer</option>
+                <option value="Service Engineer">Service Engineer</option>
+                <option value="HR Executive">HR Executive</option>
+                <option value="Production Supervisor">Production Supervisor</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
           </div>
 
-          <!-- Actions -->
-          <div class="mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <button type="submit" id="submitBtn"
-                class="py-3.5 rounded-2xl bg-gradient-to-r from-sd-pink to-purple-600 text-white font-bold shadow-lg
-                hover:opacity-95 transition focus:outline-none focus:ring-4 focus:ring-pink-200">
-                <i class="fas fa-paper-plane mr-2"></i> Submit Enquiry
-              </button>
-
-              <button type="button" id="enquiryCancel"
-                class="py-3.5 rounded-2xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition">
-                Cancel
-              </button>
-            </div>
-
-            <p id="successMsg" class="hidden text-center text-sm font-semibold text-green-600 mt-4">
-              ✅ Thanks! We received your enquiry.
-            </p>
-            <p id="errorMsg" class="hidden text-center text-sm font-semibold text-red-600 mt-4">
-              ❌ Error. Please try again.
-            </p>
-
-            <p class="text-[11px] text-slate-400 text-center mt-4">
-              By submitting, you agree to be contacted by SD Staffing Solutions.
-            </p>
+          <div class="relative">
+            <i class="fas fa-comment-alt absolute left-3 top-4 text-slate-400 text-sm"></i>
+            <textarea name="message" rows="3" placeholder="Additional info" class="widget-input resize-none pl-10"></textarea>
           </div>
+
+          <label class="flex items-start gap-3 text-xs text-slate-500 pt-1 select-none cursor-pointer">
+            <input id="termsCheck" name="terms" type="checkbox"
+              class="mt-0.5 h-4 w-4 rounded border-slate-300 text-sd-pink focus:ring-sd-pink/30" required />
+            <span>I accept the terms &amp; conditions.</span>
+          </label>
+
+          <div class="flex flex-col sm:flex-row gap-3 sm:justify-end pt-1">
+            <button type="button" id="resetFormBtn"
+              class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2.5 px-5 rounded-2xl text-sm transition border border-slate-200">
+              Reset
+            </button>
+            <button type="submit" id="submitBtn"
+              class="w-full sm:w-auto bg-sd-pink hover:bg-pink-600 text-white font-bold py-2.5 px-6 rounded-2xl text-sm transition shadow-soft hover:shadow-lg">
+              Send Application
+            </button>
+          </div>
+
+          <p id="successMsg" class="hidden text-green-600 text-center text-sm font-bold pt-1">✅ Application Sent Successfully!</p>
+          <p id="errorMsg" class="hidden text-red-500 text-center text-sm font-bold pt-1">❌ Please fill all required fields.</p>
         </form>
       </div>
     </div>
@@ -761,90 +642,146 @@
         });
       }
 
-      // ✅ Enquiry Modal Logic (same as job.html)
+      // ✅ Modal Logic
       const modal = document.getElementById("enquiryModal");
       const box = document.getElementById("enquiryBox");
       const backdrop = document.getElementById("enquiryBackdrop");
-      const closeBtn = document.getElementById("enquiryClose");
-      const cancelBtn = document.getElementById("enquiryCancel");
+      const closeHeader = document.getElementById("enquiryCloseHeader");
+
+      const form = document.getElementById("enquiryForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const successMsg = document.getElementById("successMsg");
+      const errorMsg = document.getElementById("errorMsg");
+      const resetFormBtn = document.getElementById("resetFormBtn");
 
       const openBtns = [
         document.getElementById("enquiryBtnDesktop"),
         document.getElementById("enquiryBtnMobile"),
         document.getElementById("enquiryBtnHero"),
-        document.getElementById("enquiryBtnFooter")
+        document.getElementById("enquiryBtnFooter"),
+        document.getElementById("enquiryBtnFooter2")
       ].filter(Boolean);
 
-      const openModal = () => {
+      function openModal() {
         modal.classList.remove("hidden");
-        document.body.classList.add("modal-open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("no-scroll");
 
         requestAnimationFrame(() => {
           backdrop.classList.remove("opacity-0");
-          box.classList.remove("opacity-0", "scale-[0.98]", "translate-y-2");
-          box.classList.add("opacity-100", "scale-100", "translate-y-0");
+          box.classList.remove("modal-exit");
+          box.classList.add("modal-enter");
         });
 
-        const first = modal.querySelector('input[name="fullName"]');
-        if (first) setTimeout(() => first.focus(), 120);
-      };
+        setTimeout(() => {
+          const first = form.querySelector('input[name="firstName"]');
+          if (first) first.focus();
+        }, 200);
+      }
 
-      const closeModal = () => {
+      function closeModal() {
         backdrop.classList.add("opacity-0");
-        box.classList.remove("opacity-100", "scale-100", "translate-y-0");
-        box.classList.add("opacity-0", "scale-[0.98]", "translate-y-2");
+        box.classList.remove("modal-enter");
+        box.classList.add("modal-exit");
 
         setTimeout(() => {
           modal.classList.add("hidden");
-          document.body.classList.remove("modal-open");
-          document.getElementById("successMsg").classList.add("hidden");
-          document.getElementById("errorMsg").classList.add("hidden");
-          document.getElementById("enquiryForm").reset();
-          const btn = document.getElementById("submitBtn");
-          if (btn) { btn.disabled = false; btn.innerText = "Submit Enquiry"; }
+          modal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("no-scroll");
+
+          successMsg.classList.add("hidden");
+          errorMsg.classList.add("hidden");
+          
+          // Clear visual errors when closing
+          const inputs = form.querySelectorAll("input, select, textarea");
+          inputs.forEach(input => {
+              input.style.borderColor = ""; 
+              input.style.boxShadow = "";
+          });
+          
+          form.reset();
+
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Send Application";
         }, 220);
-      };
+      }
 
       openBtns.forEach(btn => btn.addEventListener("click", openModal));
-      if (closeBtn) closeBtn.addEventListener("click", closeModal);
-      if (cancelBtn) cancelBtn.addEventListener("click", closeModal);
-      if (backdrop) backdrop.addEventListener("click", closeModal);
+      closeHeader?.addEventListener("click", closeModal);
+      backdrop?.addEventListener("click", closeModal);
 
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
       });
 
-      // ✅ GOOGLE SHEET SUBMISSION (same script URL as job.html)
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbzjEbd45l1oRR3bF81rBSPp3PT5cles-Q41lZ1sz4FUVjbDHQzHBaTm874HF-sUf3pFrg/exec';
-      const form = document.getElementById('enquiryForm');
-      const submitBtn = document.getElementById('submitBtn');
-      const successMsg = document.getElementById('successMsg');
-      const errorMsg = document.getElementById('errorMsg');
-
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          submitBtn.disabled = true;
-          submitBtn.innerText = 'Sending...';
-
-          fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-            .then(() => {
-              submitBtn.innerText = 'Sent ✅';
-              successMsg.classList.remove('hidden');
-              errorMsg.classList.add('hidden');
-
-              setTimeout(() => {
-                closeModal();
-              }, 1400);
-            })
-            .catch(err => {
-              console.error('Error!', err.message);
-              errorMsg.classList.remove('hidden');
-              submitBtn.disabled = false;
-              submitBtn.innerText = 'Retry';
-            });
+      resetFormBtn?.addEventListener("click", () => {
+        form.reset();
+        successMsg.classList.add("hidden");
+        errorMsg.classList.add("hidden");
+        // Clear errors
+        const inputs = form.querySelectorAll("input, select, textarea");
+        inputs.forEach(input => {
+            input.style.borderColor = ""; 
+            input.style.boxShadow = "";
         });
-      }
+      });
+
+      // ✅ GOOGLE SHEET SUBMISSION
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzjEbd45l1oRR3bF81rBSPp3PT5cles-Q41lZ1sz4FUVjbDHQzHBaTm874HF-sUf3pFrg/exec";
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // 1. Reset all error styles first
+        const inputs = form.querySelectorAll("input, select, textarea");
+        inputs.forEach(input => {
+             input.style.borderColor = ""; 
+             input.style.boxShadow = "";
+        });
+        errorMsg.classList.add("hidden");
+        successMsg.classList.add("hidden");
+
+        // 2. Check Validity
+        let isValid = true;
+        
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                isValid = false;
+                // Add red border to invalid fields
+                input.style.borderColor = "rgb(239, 68, 68)";
+                input.style.boxShadow = "0 0 0 4px rgba(239, 68, 68, 0.1)";
+            }
+        });
+
+        if (!isValid) {
+          errorMsg.textContent = "❌ Please check the highlighted fields.";
+          errorMsg.classList.remove("hidden");
+          return;
+        }
+
+        // 3. If Valid, Submit
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
+
+        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+          .then(response => {
+            submitBtn.innerText = "Sent ✅";
+            successMsg.classList.remove("hidden");
+            // Reset form styles
+            inputs.forEach(input => input.style.borderColor = "");
+            
+            setTimeout(() => {
+                closeModal();
+            }, 1400);
+          })
+          .catch((err) => {
+            console.error("Error!", err);
+            errorMsg.textContent = "❌ Network Error. Please try again.";
+            errorMsg.classList.remove("hidden");
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Retry";
+          });
+      });
     });
   </script>
 </body>

@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>SD Staffing Solutions | Connecting Talent</title>
+  <title>SD Staffing Solutions | Jobs</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
   <script>
     tailwind.config = {
       theme: {
@@ -22,9 +24,6 @@
               blue: 'rgb(66, 165, 245)',
               indigo: '#5c6bc0'
             }
-          },
-          boxShadow: {
-            soft: '0 10px 30px rgba(2, 6, 23, 0.10)'
           }
         }
       }
@@ -32,91 +31,103 @@
   </script>
 
   <style>
-    html, body { overflow-x: hidden; max-width: 100vw; width: 100%; margin: 0; padding: 0; position: relative; font-family: 'Outfit', sans-serif; }
-    .glass-nav { background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.06); }
-    .job-card { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
-    .job-card:hover { transform: translateY(-6px); box-shadow: 0 22px 35px rgba(2,6,23,0.12); border-color: rgba(233, 30, 99, 0.28); }
-    .page-top-space { padding-top: 80px; }
-    @media (min-width: 768px) { .page-top-space { padding-top: 140px; } }
-
-    /* prettier inputs (modal) */
-    .widget-input {
+    /* ✅ CRITICAL FIX: Prevent Horizontal Scroll */
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
       width: 100%;
-      padding: 12px 12px 12px 42px;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      font-size: 14px;
-      outline: none;
-      transition: box-shadow .2s, border-color .2s, background-color .2s;
-      background: #fff;
-      color: #0f172a;
-    }
-    .widget-input:focus { border-color: rgba(233,30,99,.65); box-shadow: 0 0 0 4px rgba(233,30,99,.12); }
-    .widget-input::placeholder { color: #94a3b8; }
-
-    .custom-scroll::-webkit-scrollbar { width: 5px; }
-    .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 20px; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 20px; }
-
-    .footer-glow { position: relative; isolation: isolate; }
-    .footer-glow:before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(800px 300px at 20% 0%, rgba(233,30,99,0.18), transparent 60%),
-        radial-gradient(800px 300px at 80% 0%, rgba(66,165,245,0.16), transparent 60%);
-      pointer-events: none;
-      z-index: -1;
+      margin: 0;
+      padding: 0;
+      position: relative;
     }
 
-    /* modal animation helpers */
-    .modal-enter { opacity: 1; transform: translateY(0) scale(1); }
-    .modal-exit  { opacity: 0; transform: translateY(10px) scale(.98); }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
 
-    /* small helpers */
-    .focus-ring:focus { outline: none; box-shadow: 0 0 0 4px rgba(233,30,99,.14); }
+    .job-card { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .job-card:hover { transform: translateY(-6px); box-shadow: 0 22px 35px rgba(2,6,23,0.12); border-color: rgba(233, 30, 99, 0.28); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #e91e63; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar{width:5px;}
+    .custom-scroll::-webkit-scrollbar-track{background:#f1f5f9;border-radius:20px;}
+    .custom-scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:20px;}
+    
+    .page-top-space { padding-top: 80px; } 
+    @media (min-width: 768px){ .page-top-space { padding-top: 140px; } }
+
+    /* --- Form Inputs (Modal) --- */
+    .widget-input{
+      width:100%;
+      padding:12px 12px 12px 42px;
+      border:1px solid #e2e8f0;
+      border-radius:12px;
+      font-size:14px;
+      outline:none;
+      transition:box-shadow .2s,border-color .2s,background-color .2s;
+      background:#fff;
+      color:#0f172a;
+    }
+    .widget-input:focus{
+      border-color:rgba(233,30,99,.65);
+      box-shadow:0 0 0 4px rgba(233,30,99,.12);
+    }
+    .widget-input::placeholder{color:#94a3b8;}
+
+    /* Error State Style */
+    .input-error {
+      border-color: rgb(239, 68, 68) !important;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+    }
+
+    /* Modal Animation */
+    .modal-enter{opacity:1;transform:translateY(0) scale(1);}
+    .modal-exit{opacity:0;transform:translateY(10px) scale(.98);}
+    .no-scroll{overflow:hidden;height:100vh;}
   </style>
 </head>
 
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
-  <!-- Top Bar -->
   <div class="hidden md:block fixed top-0 left-0 w-full z-[60] bg-sd-dark text-white py-2 text-xs">
     <div class="container mx-auto px-6 flex justify-between items-center">
       <div class="flex space-x-6">
         <a href="tel:+919482323019" class="hover:text-sd-pink transition">
-          <i class="fas fa-phone-alt text-sd-pink mr-2"></i> +919482323019
+          <i class="fas fa-phone-alt text-sd-pink mr-2"></i> +9194823 23019
         </a>
         <a href="mailto:Info@sdstaffingsolutions.com" class="hover:text-sd-pink transition">
           <i class="fas fa-envelope text-sd-pink mr-2"></i> Info@sdstaffingsolutions.com
         </a>
       </div>
       <div class="flex space-x-4">
-        <a href="#" class="hover:text-sd-pink transition" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="hover:text-sd-pink transition" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="hover:text-sd-pink transition" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-sd-pink transition"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="hover:text-sd-pink transition"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="hover:text-sd-pink transition"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
   </div>
 
-  <!-- Header -->
-  <header class="fixed w-full top-0 md:top-[32px] z-50 glass-nav shadow-sm" id="navbar">
-    <div class="container mx-auto px-6 py-3 flex justify-between items-center relative">
+  <header class="fixed w-full top-0 md:top-[32px] z-50 transition-all duration-300 glass-nav shadow-sm" id="navbar">
+    <div class="container mx-auto px-6 py-2 flex justify-between items-center relative">
+
       <a href="index.html" class="flex items-center gap-3">
-        <!-- Logo size made consistent + looks premium -->
-        <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing Logo" class="h-12 md:h-16 w-auto object-contain">
+        <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing Logo" class="h-8 md:h-12 w-auto object-contain">
       </a>
 
       <nav class="hidden md:flex items-center space-x-8 font-semibold text-[16px]">
-        <a href="index.html" class="text-sd-pink hover:text-sd-pink transition">Home</a>
-        <a href="about.html" class="text-sd-blue hover:text-sd-pink transition">About</a>
+        <a href="index.html" class="text-sd-blue hover:text-sd-pink transition duration-300">Home</a>
+        <a href="about.html" class="text-sd-blue hover:text-sd-pink transition duration-300">About</a>
 
         <div class="relative group h-full">
-          <a href="services.html" class="flex items-center text-sd-blue hover:text-sd-pink transition h-full py-2">
+          <a href="services.html" class="flex items-center text-sd-blue hover:text-sd-pink transition duration-300 h-full py-2">
             Services <i class="fas fa-chevron-down ml-1 text-xs"></i>
           </a>
-          <div class="absolute left-0 top-full w-64 bg-white border-t-2 border-sd-pink shadow-xl hidden group-hover:block rounded-b-2xl z-50 overflow-hidden">
+          <div class="absolute left-0 top-full mt-0 w-64 bg-white border-t-2 border-sd-pink shadow-xl hidden group-hover:block rounded-b-md z-50">
             <ul class="flex flex-col text-sm divide-y divide-gray-100">
               <li><a href="talent-acquisition.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Talent acquisition</a></li>
               <li><a href="permanent-staffing.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Permanent Staffing</a></li>
@@ -131,16 +142,15 @@
           </div>
         </div>
 
-        <a href="contact.html" class="text-sd-blue hover:text-sd-pink transition">Contact</a>
-        <a href="job.html" class="text-sd-blue hover:text-sd-blue transition">Jobs</a>
+        <a href="contact.html" class="text-sd-blue hover:text-sd-pink transition duration-300">Contact</a>
+        <a href="job.html" class="text-sd-pink hover:text-sd-pink transition duration-300">Jobs</a>
 
-        <button id="enquiryBtnDesktop" type="button"
-          class="px-5 py-2.5 rounded-full bg-sd-pink text-white font-bold shadow-soft hover:shadow-lg hover:bg-pink-600 transition focus-ring">
+        <button id="enquiryBtnDesktop" type="button" class="px-5 py-2.5 rounded-full bg-sd-pink text-white font-bold shadow-lg hover:bg-pink-600 transition">
           Enquiry
         </button>
       </nav>
 
-      <button id="mobileMenuToggle" class="md:hidden text-2xl text-sd-blue p-2 focus:outline-none" aria-label="Open Menu">
+      <button id="mobileMenuToggle" class="md:hidden text-2xl text-sd-blue p-2 focus:outline-none">
         <i class="fas fa-bars"></i>
       </button>
     </div>
@@ -153,7 +163,7 @@
         <div class="block border-b border-gray-50">
           <div class="flex items-center justify-between">
             <a href="services.html" class="flex-1 py-2 text-gray-700 hover:text-sd-pink transition">Services</a>
-            <button id="mobileServicesBtn" type="button" class="p-3 text-sd-blue focus:outline-none" aria-label="Expand Services">
+            <button id="mobileServicesBtn" type="button" class="p-3 text-sd-blue focus:outline-none">
               <i id="mobileServicesIcon" class="fas fa-chevron-down text-xs transition-transform duration-300"></i>
             </button>
           </div>
@@ -173,10 +183,9 @@
         </div>
 
         <a href="contact.html" class="block py-2 border-b border-gray-50">Contact</a>
-        <a href="job.html" class="block py-2 border-b border-gray-50">Jobs</a>
+        <a href="job.html" class="block py-2 border-b border-gray-50 text-sd-pink">Jobs</a>
 
-        <button id="enquiryBtnMobile" type="button"
-          class="mt-4 w-full px-5 py-3 rounded-2xl bg-sd-pink text-white font-bold shadow-soft hover:bg-pink-600 transition focus-ring">
+        <button id="enquiryBtnMobile" type="button" class="mt-4 w-full px-5 py-3 rounded-xl bg-sd-pink text-white font-bold shadow">
           Enquiry
         </button>
       </div>
@@ -184,339 +193,270 @@
   </header>
 
   <main class="page-top-space w-full overflow-x-hidden">
-
-    <!-- Hero -->
-    <section class="relative bg-gradient-to-br from-sd-pink/10 via-white to-sd-blue/10">
-      <div class="container mx-auto px-6 py-12 md:py-20 text-center">
-        <span class="inline-block px-4 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-bold uppercase tracking-wider text-slate-600">
-          CAREERS @ SD STAFFING
+    <section class="relative bg-gradient-to-br from-sd-pink/10 via-white to-sd-blue/10 py-16 text-center">
+      <div class="container mx-auto px-6">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-bold uppercase tracking-wider text-slate-600 mb-4">
+          <span class="w-2 h-2 rounded-full bg-sd-pink"></span>
+          Careers @ SD Staffing
         </span>
-
-        <h1 class="text-4xl md:text-6xl font-bold mt-6 text-slate-900 leading-tight">
-          Find Your Next <br>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-sd-pink to-purple-600">Career Opportunity</span>
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+          Find Your Next Opportunity
         </h1>
+        <p class="text-slate-600 max-w-2xl mx-auto">
+          Search across roles, locations, and skill sets. Apply quickly—our team will reach out if your profile matches.
+        </p>
 
-        <div class="mt-10 max-w-4xl mx-auto">
-          <div class="bg-white p-3 rounded-2xl shadow-xl border border-slate-100 flex flex-col md:flex-row gap-3">
-            <div class="flex-1 relative group">
-              <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-              <input type="text" id="searchInput" placeholder="Job title, keywords..."
-                class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-transparent focus:border-sd-pink/40 focus:ring-4 focus:ring-sd-pink/10 outline-none">
-            </div>
-
-            <div class="flex-1 relative group">
-              <i class="fas fa-map-marker-alt absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-              <select id="locationSelect"
-                class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-transparent focus:border-sd-pink/40 focus:ring-4 focus:ring-sd-pink/10 outline-none cursor-pointer appearance-none">
-                <option value="all">All Locations</option>
-                <option value="chennai">Chennai</option>
-                <option value="bangalore">Bangalore</option>
-                <option value="mumbai">Mumbai</option>
-                <option value="goa">Goa</option>
-              </select>
-            </div>
-
-            <button id="searchBtn"
-              class="bg-sd-dark hover:bg-slate-800 text-white px-8 py-3 rounded-xl font-bold transition shadow-soft hover:shadow-lg focus-ring">
-              Find Job
-            </button>
+        <div class="mt-10 max-w-5xl mx-auto bg-white p-3 rounded-2xl shadow-lg border border-slate-100 grid grid-cols-1 md:grid-cols-10 gap-3">
+          <div class="md:col-span-5 relative">
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input type="text" id="searchInput" placeholder="Job title, keywords..." class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border-0 focus:ring-2 focus:ring-sd-pink/20 outline-none">
+          </div>
+          <div class="md:col-span-3 relative">
+            <i class="fas fa-map-marker-alt absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <select id="locationSelect" class="w-full pl-10 pr-10 py-3 rounded-xl bg-slate-50 border-0 focus:ring-2 focus:ring-sd-pink/20 outline-none cursor-pointer appearance-none">
+              <option value="all">All Locations</option>
+              <option value="chennai">Chennai</option>
+              <option value="bangalore">Bangalore</option>
+              <option value="mumbai">Mumbai</option>
+              <option value="goa">Goa</option>
+            </select>
+            <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+          </div>
+          <div class="md:col-span-2 flex gap-2">
+            <button id="searchBtn" class="flex-1 bg-sd-dark hover:bg-slate-800 text-white px-4 py-3 rounded-xl font-bold transition">Find Job</button>
+            <button id="clearBtn" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-3 rounded-xl font-bold transition">Clear</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Openings -->
     <section id="openings" class="py-16 bg-white min-h-[600px]">
       <div class="container mx-auto px-6 max-w-6xl">
         <div class="flex justify-between items-end mb-8">
-          <h2 class="text-3xl font-bold text-slate-900">Latest Openings</h2>
-          <button onclick="resetFilters()" class="text-sd-pink text-sm font-semibold hover:underline hidden" id="resetBtn">
-            Reset Filters
-          </button>
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900">Latest Openings</h2>
+            <p id="resultsCount" class="text-sm text-slate-500 mt-1">Showing all roles</p>
+          </div>
+          <button onclick="resetFilters()" class="text-sd-pink text-sm font-bold hover:underline hidden" id="resetBtn">Reset Filters</button>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-6" id="jobContainer">
-          <!-- CHENNAI – SR SALES OFFICER -->
-          <div class="job-card border border-slate-100 bg-white rounded-2xl p-7 relative group"
-            data-title="sr sales officer sales officer retail field sales pos qr printer billing machine barcode scanner receipt printer"
-            data-location="chennai">
+        <div class="grid md:grid-cols-2 gap-6" id="jobContainer">
+          
+          <article class="job-card border border-slate-100 bg-white rounded-2xl p-7 relative group"
+            data-title="sr sales officer sales officer retail field sales" data-location="chennai" data-position="Sr. Sales Officer">
             <div class="absolute top-0 right-0 bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-bl-2xl uppercase">Sales</div>
             <div class="flex items-start gap-4 mb-4">
-              <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 text-xl">
-                <i class="fas fa-briefcase"></i>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-slate-900 group-hover:text-sd-pink transition">Sr. Sales Officer</h3>
-                <p class="text-sm text-slate-500">Essae – Teraoka Pvt. Ltd.</p>
-              </div>
+              <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 text-xl"><i class="fas fa-briefcase"></i></div>
+              <div><h3 class="text-xl font-bold text-slate-900 group-hover:text-sd-pink transition">Sr. Sales Officer</h3><p class="text-sm text-slate-500">Essae – Teraoka Pvt. Ltd.</p></div>
             </div>
-            <div class="flex flex-wrap gap-2 mb-4">
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">Chennai</span>
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">₹25,000 – ₹35,000</span>
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">2–4 yrs</span>
+            <div class="flex flex-wrap gap-2 mb-4 text-xs font-medium text-slate-600">
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-location-dot mr-1"></i>Chennai</span>
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-indian-rupee-sign mr-1"></i>25k – 35k</span>
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-briefcase mr-1"></i>2–4 yrs</span>
             </div>
             <div class="mt-4 pt-4 border-t border-slate-50 flex justify-between items-center">
               <p class="text-xs text-slate-400">Gopalapuram</p>
               <button class="open-apply-modal text-sd-pink font-bold text-sm hover:underline">Apply Now →</button>
             </div>
-          </div>
+          </article>
 
-          <!-- CHENNAI – SERVICE ENGINEER (3 POSITIONS) -->
-          <div class="job-card border border-slate-100 bg-white rounded-2xl p-7 relative group"
-            data-title="service engineer electronics iti diploma fieldwork chennai ambattur"
-            data-location="chennai">
+          <article class="job-card border border-slate-100 bg-white rounded-2xl p-7 relative group"
+            data-title="service engineer electronics iti diploma" data-location="chennai" data-position="Service Engineer">
             <div class="absolute top-0 right-0 bg-blue-100 text-blue-700 text-[10px] font-bold px-3 py-1 rounded-bl-2xl uppercase">Technical</div>
             <div class="flex items-start gap-4 mb-4">
-              <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 text-xl">
-                <i class="fas fa-tools"></i>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-slate-900 group-hover:text-sd-pink transition">Service Engineer</h3>
-                <p class="text-sm text-slate-500">Essae – Teraoka Pvt. Ltd.</p>
-              </div>
+              <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 text-xl"><i class="fas fa-tools"></i></div>
+              <div><h3 class="text-xl font-bold text-slate-900 group-hover:text-sd-pink transition">Service Engineer</h3><p class="text-sm text-slate-500">Essae – Teraoka Pvt. Ltd.</p></div>
             </div>
-            <div class="flex flex-wrap gap-2 mb-4">
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">Chennai</span>
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">₹21,500</span>
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">3 Positions</span>
+            <div class="flex flex-wrap gap-2 mb-4 text-xs font-medium text-slate-600">
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-location-dot mr-1"></i>Chennai</span>
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-indian-rupee-sign mr-1"></i>21,500</span>
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-users mr-1"></i>3 Positions</span>
             </div>
             <div class="mt-4 pt-4 border-t border-slate-50 flex justify-between items-center">
-              <p class="text-xs text-slate-400">Chennai & Ambattur</p>
+              <p class="text-xs text-slate-400">Ambattur</p>
               <button class="open-apply-modal text-sd-pink font-bold text-sm hover:underline">Apply Now →</button>
             </div>
-          </div>
+          </article>
 
-          <!-- GOA – SERVICE ENGINEER -->
-          <div class="job-card border border-slate-100 bg-white rounded-2xl p-7 relative group"
-            data-title="service engineer electronics iti diploma installation warranty asc goa"
-            data-location="goa">
+          <article class="job-card border border-slate-100 bg-white rounded-2xl p-7 relative group"
+            data-title="service engineer electronics iti diploma" data-location="goa" data-position="Service Engineer">
             <div class="absolute top-0 right-0 bg-blue-100 text-blue-700 text-[10px] font-bold px-3 py-1 rounded-bl-2xl uppercase">Technical</div>
             <div class="flex items-start gap-4 mb-4">
-              <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 text-xl">
-                <i class="fas fa-tools"></i>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-slate-900 group-hover:text-sd-pink transition">Service Engineer</h3>
-                <p class="text-sm text-slate-500">Essae – Teraoka Pvt. Ltd.</p>
-              </div>
+              <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 text-xl"><i class="fas fa-tools"></i></div>
+              <div><h3 class="text-xl font-bold text-slate-900 group-hover:text-sd-pink transition">Service Engineer</h3><p class="text-sm text-slate-500">Essae – Teraoka Pvt. Ltd.</p></div>
             </div>
-            <div class="flex flex-wrap gap-2 mb-4">
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">Goa</span>
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">₹21,500</span>
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">0–1 yr</span>
+            <div class="flex flex-wrap gap-2 mb-4 text-xs font-medium text-slate-600">
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-location-dot mr-1"></i>Goa</span>
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-indian-rupee-sign mr-1"></i>21,500</span>
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-seedling mr-1"></i>0-1 yr</span>
             </div>
             <div class="mt-4 pt-4 border-t border-slate-50 flex justify-between items-center">
               <p class="text-xs text-slate-400">Panjim</p>
               <button class="open-apply-modal text-sd-pink font-bold text-sm hover:underline">Apply Now →</button>
             </div>
-          </div>
+          </article>
 
-          <!-- MUMBAI – SERVICE ENGINEER (2 POSITIONS) -->
-          <div class="job-card border border-slate-100 bg-white rounded-2xl p-7 relative group"
-            data-title="service engineer electronics fresher fieldwork mumbai"
-            data-location="mumbai">
-            <div class="absolute top-0 right-0 bg-blue-100 text-blue-700 text-[10px] font-bold px-3 py-1 rounded-bl-2xl uppercase">Technical</div>
-            <div class="flex items-start gap-4 mb-4">
-              <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 text-xl">
-                <i class="fas fa-tools"></i>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-slate-900 group-hover:text-sd-pink transition">Service Engineer</h3>
-                <p class="text-sm text-slate-500">Essae – Teraoka Pvt. Ltd.</p>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-2 mb-4">
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">Mumbai</span>
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">₹21,500</span>
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">2 Positions</span>
-            </div>
-            <div class="mt-4 pt-4 border-t border-slate-50 flex justify-between items-center">
-              <p class="text-xs text-slate-400">Vile Parle</p>
-              <button class="open-apply-modal text-sd-pink font-bold text-sm hover:underline">Apply Now →</button>
-            </div>
-          </div>
-
-          <!-- BANGALORE – SALES OFFICER -->
-          <div class="job-card border border-slate-100 bg-white rounded-2xl p-7 relative group"
-            data-title="sales officer b2b industrial sales fieldwork bangalore"
-            data-location="bangalore">
+          <article class="job-card border border-slate-100 bg-white rounded-2xl p-7 relative group"
+            data-title="sales officer b2b industrial sales" data-location="bangalore" data-position="Sales Officer">
             <div class="absolute top-0 right-0 bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-bl-2xl uppercase">Sales</div>
             <div class="flex items-start gap-4 mb-4">
-              <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 text-xl">
-                <i class="fas fa-briefcase"></i>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-slate-900 group-hover:text-sd-pink transition">Sales Officer</h3>
-                <p class="text-sm text-slate-500">Essae – Teraoka Pvt. Ltd.</p>
-              </div>
+              <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 text-xl"><i class="fas fa-briefcase"></i></div>
+              <div><h3 class="text-xl font-bold text-slate-900 group-hover:text-sd-pink transition">Sales Officer</h3><p class="text-sm text-slate-500">Essae – Teraoka Pvt. Ltd.</p></div>
             </div>
-            <div class="flex flex-wrap gap-2 mb-4">
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">Bangalore</span>
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">₹23,000</span>
-              <span class="px-3 py-1 rounded-xl bg-slate-50 text-slate-600 text-xs font-medium">1–2 yrs</span>
+            <div class="flex flex-wrap gap-2 mb-4 text-xs font-medium text-slate-600">
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-location-dot mr-1"></i>Bangalore</span>
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-indian-rupee-sign mr-1"></i>23,000</span>
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-briefcase mr-1"></i>1-2 yrs</span>
             </div>
             <div class="mt-4 pt-4 border-t border-slate-50 flex justify-between items-center">
               <p class="text-xs text-slate-400">Koramangala</p>
               <button class="open-apply-modal text-sd-pink font-bold text-sm hover:underline">Apply Now →</button>
             </div>
-          </div>
+          </article>
+
+        </div>
+
+        <div id="noResults" class="hidden mt-10 text-center border border-dashed border-slate-200 rounded-3xl p-10 bg-slate-50">
+          <div class="w-14 h-14 rounded-2xl bg-white border border-slate-200 mx-auto flex items-center justify-center text-slate-500"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <h3 class="mt-4 text-lg font-bold text-slate-900">No matching jobs found</h3>
+          <p class="mt-1 text-sm text-slate-600">Try a different keyword or select “All Locations”.</p>
+          <button onclick="resetFilters()" class="mt-5 inline-flex items-center justify-center px-5 py-2.5 rounded-2xl bg-sd-pink text-white font-bold shadow hover:bg-pink-600 transition">Reset Filters</button>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800 w-full footer-glow">
+  <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800 w-full">
     <div class="container mx-auto px-6">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
-        <div>
-          <div class="flex items-center gap-4 mb-5">
-            <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
-              <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing Solutions" class="h-10 w-auto object-contain" loading="lazy" />
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            
             <div>
-              <p class="text-white font-bold leading-tight">SD Staffing</p>
-              <p class="text-xs text-slate-400">Connecting Talent</p>
+                <div class="mb-6">
+                    <a href="index.html" class="inline-block">
+                        <img src="images/SD LOGO_ENHANCED PNG.png" 
+                             alt="SD Staffing" 
+                             class="h-12 w-auto object-contain">
+                    </a>
+                </div>
+
+                <p class="text-sm text-slate-400 leading-relaxed mb-6">
+                    Connecting exceptional talent with top organizations. Fast hiring, reliable HR support, and compliant workforce solutions.
+                </p>
+                <div class="flex gap-3">
+                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-facebook-f text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-linkedin-in text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-instagram text-sm"></i></a>
+                </div>
             </div>
-          </div>
 
-          <p class="text-sm text-slate-400 leading-relaxed mb-6">
-            Connecting exceptional talent with top organizations. Fast hiring, reliable HR support, and compliant workforce solutions.
-          </p>
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Services</h4>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li><a href="talent-acquisition.html" class="hover:text-sd-pink transition">Talent Acquisition</a></li>
+                    <li><a href="permanent-staffing.html" class="hover:text-sd-pink transition">Permanent Staffing</a></li>
+                    <li><a href="contract-staffing.html" class="hover:text-sd-pink transition">Contract Staffing</a></li>
+                    <li><a href="payroll-outsourcing.html" class="hover:text-sd-pink transition">Payroll Outsourcing</a></li>
+                </ul>
+            </div>
 
-          <div class="flex gap-3">
-            <a href="#" aria-label="Facebook"
-              class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition shadow-md hover:shadow-lg">
-              <i class="fab fa-facebook-f text-sm"></i>
-            </a>
-            <a href="#" aria-label="LinkedIn"
-              class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition shadow-md hover:shadow-lg">
-              <i class="fab fa-linkedin-in text-sm"></i>
-            </a>
-            <a href="#" aria-label="Instagram"
-              class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition shadow-md hover:shadow-lg">
-              <i class="fab fa-instagram text-sm"></i>
-            </a>
-          </div>
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Quick Links</h4>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li><a href="about.html" class="hover:text-sd-pink transition">About Us</a></li>
+                    <li><a href="training.html" class="hover:text-sd-pink transition">Training</a></li>
+                    <li><a href="job.html" class="hover:text-sd-pink transition">Jobs</a></li>
+                    <li><button id="enquiryBtnFooter2" class="hover:text-sd-pink transition text-left" type="button">Enquiry</button></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Contact</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-map-marker-alt text-sd-pink mt-1"></i>
+                        <span>134/1, 4th cross, Chikkathogur Main Rd, Pragathi Nagar, Electronic City,<br>Bengaluru, Karnataka 560100</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-phone-alt text-sd-pink"></i>
+                        <a class="hover:text-sd-pink transition" href="tel:+919482323019">+91 94823 23019</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-envelope text-sd-pink"></i>
+                        <a class="hover:text-sd-pink transition" href="mailto:Info@sdstaffingsolutions.com">Info@sdstaffingsolutions.com</a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div>
-          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Services</h4>
-          <ul class="space-y-3 text-sm text-slate-400">
-            <li><a href="talent-acquisition.html" class="hover:text-sd-pink transition">Talent Acquisition</a></li>
-            <li><a href="permanent-staffing.html" class="hover:text-sd-pink transition">Permanent Staffing</a></li>
-            <li><a href="contract-staffing.html" class="hover:text-sd-pink transition">Contract Staffing</a></li>
-            <li><a href="payroll-outsourcing.html" class="hover:text-sd-pink transition">Payroll Outsourcing</a></li>
-          </ul>
+        <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-center gap-3 text-xs text-slate-500">
+            <p>&copy; 2024 SD Staffing Solutions. All Rights Reserved.</p>
         </div>
-
-        <div>
-          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Quick Links</h4>
-          <ul class="space-y-3 text-sm text-slate-400">
-            <li><a href="about.html" class="hover:text-sd-pink transition">About Us</a></li>
-            <li><a href="training.html" class="hover:text-sd-pink transition">Training</a></li>
-            <li><a href="job.html" class="hover:text-sd-pink transition">Jobs</a></li>
-            <li><button id="enquiryBtnFooter" class="hover:text-sd-pink transition text-left">Enquiry</button></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="text-white font-bold uppercase tracking-wider mb-5 text-sm">Contact</h4>
-          <ul class="space-y-4 text-sm text-slate-400">
-            <li class="flex items-start gap-3">
-              <i class="fas fa-map-marker-alt text-sd-pink mt-1"></i>
-              <span>Chikkathgour road,<br>Bangalore, India</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <i class="fas fa-phone-alt text-sd-pink"></i>
-              <a class="hover:text-sd-pink transition" href="tel:+919482323019">+919482323019</a>
-            </li>
-            <li class="flex items-center gap-3">
-              <i class="fas fa-envelope text-sd-pink"></i>
-              <a class="hover:text-sd-pink transition" href="mailto:Info@sdstaffingsolutions.com">Info@sdstaffingsolutions.com</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-        <p>&copy; 2024 SD Staffing Solutions. All Rights Reserved.</p>
-        <p class="flex items-center gap-2">
-          <i class="fas fa-pen-nib text-slate-400"></i>
-          Designed by <span class="text-slate-300 font-semibold">SD Staffing</span>
-        </p>
-      </div>
     </div>
-  </footer>
+</footer>
 
-  <!-- Modal -->
-  <div id="enquiryModal" class="fixed inset-0 z-[100] hidden">
-    <div id="enquiryBackdrop" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm opacity-0 transition-opacity"></div>
+  <div id="enquiryModal" class="fixed inset-0 z-[100] hidden" aria-hidden="true" role="dialog" aria-modal="true">
+    <div id="enquiryBackdrop" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm opacity-0 transition-opacity duration-200"></div>
 
     <div class="relative min-h-screen flex items-center justify-center p-4">
-      <div id="enquiryBox" class="w-full max-w-[560px] bg-white rounded-3xl shadow-2xl overflow-hidden modal-exit transition-all duration-300">
-        <!-- Header -->
+      <div id="enquiryBox" class="w-full max-w-[560px] bg-white rounded-3xl shadow-2xl overflow-hidden modal-exit transition-all duration-200">
         <div class="bg-sd-dark px-5 py-4 flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center overflow-hidden">
+            <div class="w-10 h-10  flex items-center justify-center overflow-hidden">
               <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing" class="h-7 w-auto object-contain">
             </div>
             <div>
-              <h3 class="text-white font-semibold text-base leading-tight">Job Application</h3>
-              <p class="text-slate-300 text-xs">Apply in less than 1 minute</p>
+              <h3 class="text-white font-semibold text-base leading-tight">Enquiry / Application</h3>
             </div>
           </div>
 
-          <button id="enquiryCloseHeader" class="text-slate-300 hover:text-white transition" aria-label="Close">
+          <button id="enquiryCloseHeader" class="text-slate-300 hover:text-white transition" aria-label="Close" type="button">
             <i class="fas fa-times"></i>
           </button>
         </div>
 
-        <!-- Body -->
-        <form id="enquiryForm" class="p-6 space-y-4 custom-scroll max-h-[78vh] overflow-y-auto" name="submit-to-google-sheet">
+        <form id="enquiryForm" class="p-6 space-y-4 custom-scroll max-h-[78vh] overflow-y-auto" name="submit-to-google-sheet" novalidate>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="relative">
               <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-              <input required type="text" name="firstName" placeholder="First name" class="widget-input">
+              <input required type="text" name="firstName" placeholder="First name *" class="widget-input" autocomplete="given-name">
             </div>
             <div class="relative">
               <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-              <input required type="text" name="lastName" placeholder="Last name" class="widget-input">
+              <input required type="text" name="lastName" placeholder="Last name *" class="widget-input" autocomplete="family-name">
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="relative">
               <i class="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-              <input required type="email" name="email" placeholder="Email" class="widget-input">
+              <input required type="email" name="email" placeholder="Email *" class="widget-input" autocomplete="email">
             </div>
             <div class="relative">
               <i class="fas fa-phone absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-              <input required type="tel" name="phone" placeholder="Phone" class="widget-input">
+              <input required type="tel" name="phone" placeholder="Phone (10 digits) *" class="widget-input"
+                     autocomplete="tel" inputmode="numeric"
+                     pattern="[6-9][0-9]{9}"
+                     title="Enter valid 10-digit Indian mobile number starting with 6-9">
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
             <div class="relative">
               <i class="fas fa-city absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-              <input type="text" name="city" placeholder="City" class="widget-input">
+              <input type="text" name="city" placeholder="City" class="widget-input" autocomplete="address-level2">
             </div>
-          </div>
-
-          
-
-          <div class="relative">
-            <i class="fas fa-briefcase absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-            <select name="position" class="widget-input text-slate-600 bg-white">
-              <option value="" disabled selected>Choose desired position</option>
-              <option value="Sales Officer">Sales Officer</option>
-              <option value="Service Engineer">Service Engineer</option>
-              <option value="HR Executive">HR Executive</option>
-              <option value="Production Supervisor">Production Supervisor</option>
-              <option value="Other">Other</option>
-            </select>
+            <div class="relative">
+              <i class="fas fa-briefcase absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <select name="position" id="positionSelect" class="widget-input text-slate-700 bg-white" required>
+                <option value="" disabled selected>Select position *</option>
+                <option value="Sr. Sales Officer">Sr. Sales Officer</option>
+                <option value="Sales Officer">Sales Officer</option>
+                <option value="Service Engineer">Service Engineer</option>
+                <option value="HR Executive">HR Executive</option>
+                <option value="Production Supervisor">Production Supervisor</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
           </div>
 
           <div class="relative">
@@ -524,158 +464,272 @@
             <textarea name="message" rows="3" placeholder="Additional info" class="widget-input resize-none pl-10"></textarea>
           </div>
 
+          <label class="flex items-start gap-3 text-xs text-slate-500 pt-1 select-none">
+            <input id="termsCheck" name="terms" type="checkbox"
+              class="mt-0.5 h-4 w-4 rounded border-slate-300 text-sd-pink focus:ring-sd-pink/30" required />
+            <span>I accept the terms & conditions.</span>
+          </label>
+
           <div class="flex flex-col sm:flex-row gap-3 sm:justify-end pt-1">
             <button type="button" id="resetFormBtn"
-              class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2.5 px-5 rounded-2xl text-sm transition focus-ring border border-slate-200">
+              class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2.5 px-5 rounded-2xl text-sm transition border border-slate-200">
               Reset
             </button>
             <button type="submit" id="submitBtn"
-              class="w-full sm:w-auto bg-sd-pink hover:bg-pink-600 text-white font-bold py-2.5 px-6 rounded-2xl text-sm transition shadow-soft hover:shadow-lg focus-ring">
+              class="w-full sm:w-auto bg-sd-pink hover:bg-pink-600 text-white font-bold py-2.5 px-6 rounded-2xl text-sm transition shadow-soft hover:shadow-lg">
               Send Application
             </button>
           </div>
 
           <p id="successMsg" class="hidden text-green-600 text-center text-sm font-bold pt-1">✅ Application Sent Successfully!</p>
-          <p id="errorMsg" class="hidden text-red-500 text-center text-sm font-bold pt-1">❌ Error. Please try again.</p>
-
-          <p class="text-[11px] text-slate-400 text-center pt-2">
-            By submitting, you agree to be contacted by SD Staffing Solutions.
-          </p>
+          <p id="errorMsg" class="hidden text-red-500 text-center text-sm font-bold pt-1">❌ Please fill all required fields.</p>
         </form>
-
-        <!-- Footer strip -->
-        <div class="bg-slate-50 border-t px-5 py-3 text-center">
-          <p class="text-[10px] text-slate-400">© 2025 SD Staffing Solutions. All Rights Reserved.</p>
-        </div>
       </div>
     </div>
   </div>
 
   <script>
-    // --- FILTERING LOGIC ---
-    const searchInput = document.getElementById('searchInput');
-    const locationSelect = document.getElementById('locationSelect');
-    const searchBtn = document.getElementById('searchBtn');
-
-    function getJobCards() {
-      return Array.from(document.querySelectorAll('.job-card'));
-    }
-
-    function filterJobs() {
-      const searchTerm = (searchInput.value || '').toLowerCase().trim();
-      const locationTerm = (locationSelect.value || 'all').toLowerCase();
-
-      getJobCards().forEach(card => {
-        const title = ((card.getAttribute('data-title') || '')).toLowerCase();
-        const location = ((card.getAttribute('data-location') || '')).toLowerCase();
-        const matchesSearch = title.includes(searchTerm);
-        const matchesLocation = locationTerm === 'all' || location === locationTerm;
-        card.style.display = (matchesSearch && matchesLocation) ? 'block' : 'none';
-      });
-
-      const resetBtn = document.getElementById('resetBtn');
-      const filtersActive = searchTerm !== '' || locationTerm !== 'all';
-      if (resetBtn) resetBtn.classList.toggle('hidden', !filtersActive);
-    }
-
-    searchBtn.addEventListener('click', filterJobs);
-    searchInput.addEventListener('keyup', (e) => { if (e.key === 'Enter') filterJobs(); });
-    locationSelect.addEventListener('change', filterJobs);
-
-    function resetFilters() {
-      searchInput.value = '';
-      locationSelect.value = 'all';
-      filterJobs();
-    }
-
-    // --- MODAL LOGIC ---
-    const modal = document.getElementById("enquiryModal");
-    const box = document.getElementById("enquiryBox");
-    const backdrop = document.getElementById("enquiryBackdrop");
-
-    function openModal() {
-      modal.classList.remove("hidden");
-      requestAnimationFrame(() => {
-        backdrop.classList.remove("opacity-0");
-        box.classList.remove("modal-exit");
-        box.classList.add("modal-enter");
-      });
-    }
-
-    function closeModal() {
-      backdrop.classList.add("opacity-0");
-      box.classList.remove("modal-enter");
-      box.classList.add("modal-exit");
-      setTimeout(() => {
-        modal.classList.add("hidden");
-        document.getElementById("successMsg").classList.add("hidden");
-        document.getElementById("errorMsg").classList.add("hidden");
-        document.getElementById("enquiryForm").reset();
-      }, 250);
-    }
-
-    document.querySelectorAll('.open-apply-modal').forEach(btn => btn.addEventListener('click', openModal));
-    document.getElementById('enquiryCloseHeader').addEventListener('click', closeModal);
-    backdrop.addEventListener('click', closeModal);
-
-    const enquiryBtnDesktop = document.getElementById('enquiryBtnDesktop');
-    const enquiryBtnMobile = document.getElementById('enquiryBtnMobile');
-    const enquiryBtnFooter = document.getElementById('enquiryBtnFooter');
-    [enquiryBtnDesktop, enquiryBtnMobile, enquiryBtnFooter].forEach(btn => { if (btn) btn.addEventListener('click', openModal); });
-
-    document.getElementById('resetFormBtn').addEventListener('click', () => {
-      document.getElementById("enquiryForm").reset();
-    });
-
-    // --- GOOGLE SHEET SUBMISSION ---
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzjEbd45l1oRR3bF81rBSPp3PT5cles-Q41lZ1sz4FUVjbDHQzHBaTm874HF-sUf3pFrg/exec';
-    const form = document.getElementById('enquiryForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const successMsg = document.getElementById('successMsg');
-    const errorMsg = document.getElementById('errorMsg');
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      submitBtn.disabled = true;
-      submitBtn.innerText = 'Sending...';
-
-      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-        .then(() => {
-          submitBtn.innerText = 'Sent ✅';
-          successMsg.classList.remove('hidden');
-          errorMsg.classList.add('hidden');
-          setTimeout(() => {
-            closeModal();
-            submitBtn.disabled = false;
-            submitBtn.innerText = 'Send Application';
-          }, 1800);
-        })
-        .catch(error => {
-          console.error('Error!', error.message);
-          errorMsg.classList.remove('hidden');
-          submitBtn.disabled = false;
-          submitBtn.innerText = 'Retry';
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Mobile Menu
+      const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if(mobileMenuToggle && mobileMenu) {
+        mobileMenuToggle.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
         });
-    });
+      }
 
-    // Mobile Menu
-    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+      // 2. Mobile Services Dropdown
+      const mobileServicesBtn = document.getElementById('mobileServicesBtn');
+      const mobileServicesList = document.getElementById('mobileServicesList');
+      const mobileServicesIcon = document.getElementById('mobileServicesIcon');
+      if (mobileServicesBtn) {
+        mobileServicesBtn.addEventListener('click', () => {
+          mobileServicesList.classList.toggle('hidden');
+          mobileServicesList.classList.toggle('flex');
+          mobileServicesIcon.classList.toggle('rotate-180');
+        });
+      }
 
-    // Mobile Services Dropdown
-    const mobileServicesBtn = document.getElementById('mobileServicesBtn');
-    const mobileServicesList = document.getElementById('mobileServicesList');
-    const mobileServicesIcon = document.getElementById('mobileServicesIcon');
-    if (mobileServicesBtn && mobileServicesList && mobileServicesIcon) {
-      mobileServicesBtn.addEventListener('click', () => {
-        mobileServicesList.classList.toggle('hidden');
-        mobileServicesIcon.classList.toggle('rotate-180');
+      // 3. Navbar scroll shadow
+      window.addEventListener("scroll", () => {
+        const navbar = document.getElementById("navbar");
+        if (!navbar) return;
+        if (window.scrollY > 50) navbar.classList.add("shadow-md");
+        else navbar.classList.remove("shadow-md");
       });
-    }
 
-    // Initial load
-    filterJobs();
+      // 4. GSAP Animations
+      if (window.gsap && window.ScrollTrigger) {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from(".job-card", {
+          scrollTrigger: { trigger: "#jobContainer", start: "top 85%" },
+          y: 20, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power2.out", immediateRender: false
+        });
+      }
+
+      // 5. Job Filtering Logic
+      const searchInput = document.getElementById('searchInput');
+      const locationSelect = document.getElementById('locationSelect');
+      const searchBtn = document.getElementById('searchBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const resultsCount = document.getElementById('resultsCount');
+      const noResults = document.getElementById('noResults');
+
+      function filterJobs() {
+        const searchTerm = (searchInput.value || '').toLowerCase().trim();
+        const locationTerm = (locationSelect.value || 'all').toLowerCase();
+
+        let visible = 0;
+        const cards = document.querySelectorAll('.job-card');
+
+        cards.forEach(card => {
+          const title = (card.getAttribute('data-title') || '').toLowerCase();
+          const location = (card.getAttribute('data-location') || '').toLowerCase();
+
+          const matchesSearch = title.includes(searchTerm);
+          const matchesLocation = locationTerm === 'all' || location === locationTerm;
+
+          if (matchesSearch && matchesLocation) {
+            card.style.display = 'block';
+            visible++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        const filtersActive = searchTerm !== '' || locationTerm !== 'all';
+        resetBtn.classList.toggle('hidden', !filtersActive);
+
+        resultsCount.textContent = filtersActive
+          ? `Showing ${visible} result${visible === 1 ? '' : 's'}`
+          : 'Showing all roles';
+
+        noResults.classList.toggle('hidden', visible !== 0);
+      }
+
+      function resetFilters() {
+        searchInput.value = '';
+        locationSelect.value = 'all';
+        filterJobs();
+      }
+
+      searchBtn.addEventListener('click', filterJobs);
+      clearBtn.addEventListener('click', resetFilters);
+      searchInput.addEventListener('keyup', (e) => { if (e.key === 'Enter') filterJobs(); });
+      locationSelect.addEventListener('change', filterJobs);
+
+
+      // 6. Modal Logic
+      const modal = document.getElementById("enquiryModal");
+      const box = document.getElementById("enquiryBox");
+      const backdrop = document.getElementById("enquiryBackdrop");
+      const closeHeader = document.getElementById("enquiryCloseHeader");
+
+      const form = document.getElementById("enquiryForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const successMsg = document.getElementById("successMsg");
+      const errorMsg = document.getElementById("errorMsg");
+      const resetFormBtn = document.getElementById("resetFormBtn");
+      const positionSelect = document.getElementById("positionSelect");
+
+      let lastClickedPosition = "";
+
+      const openBtns = [
+        document.getElementById("enquiryBtnDesktop"),
+        document.getElementById("enquiryBtnMobile"),
+        document.getElementById("enquiryBtnFooter")
+      ].filter(Boolean);
+
+      function openModal() {
+        modal.classList.remove("hidden");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("no-scroll");
+
+        requestAnimationFrame(() => {
+          backdrop.classList.remove("opacity-0");
+          box.classList.remove("modal-exit");
+          box.classList.add("modal-enter");
+        });
+
+        if (lastClickedPosition && positionSelect) {
+          positionSelect.value = lastClickedPosition;
+        }
+
+        setTimeout(() => {
+          const first = form.querySelector('input[name="firstName"]');
+          if(first) first.focus();
+        }, 200);
+      }
+
+      function closeModal() {
+        backdrop.classList.add("opacity-0");
+        box.classList.remove("modal-enter");
+        box.classList.add("modal-exit");
+
+        setTimeout(() => {
+          modal.classList.add("hidden");
+          modal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("no-scroll");
+          form.reset();
+          successMsg.classList.add("hidden");
+          errorMsg.classList.add("hidden");
+          // Clear error styles
+          const inputs = form.querySelectorAll("input, select, textarea");
+          inputs.forEach(i => {
+             i.style.borderColor = "";
+             i.style.boxShadow = "";
+          });
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Send Application";
+          lastClickedPosition = ""; 
+        }, 220);
+      }
+
+      // Handle "Apply Now" buttons on job cards
+      document.querySelectorAll('.open-apply-modal').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const card = e.target.closest('.job-card');
+          lastClickedPosition = card?.getAttribute('data-position') || "";
+          openModal();
+        });
+      });
+
+      openBtns.forEach(btn => btn.addEventListener("click", () => {
+          lastClickedPosition = ""; // Reset if opened via main button
+          openModal();
+      }));
+      
+      closeHeader?.addEventListener("click", closeModal);
+      backdrop?.addEventListener("click", closeModal);
+      resetFormBtn?.addEventListener("click", () => {
+          form.reset();
+          if (lastClickedPosition && positionSelect) positionSelect.value = lastClickedPosition;
+          successMsg.classList.add("hidden");
+          errorMsg.classList.add("hidden");
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+      });
+
+      // ✅ GOOGLE SHEET SUBMISSION
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzjEbd45l1oRR3bF81rBSPp3PT5cles-Q41lZ1sz4FUVjbDHQzHBaTm874HF-sUf3pFrg/exec";
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // Reset Errors
+        const inputs = form.querySelectorAll("input, select, textarea");
+        inputs.forEach(input => {
+             input.style.borderColor = ""; 
+             input.style.boxShadow = "";
+        });
+        errorMsg.classList.add("hidden");
+        successMsg.classList.add("hidden");
+
+        // Validate
+        let isValid = true;
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                isValid = false;
+                input.style.borderColor = "rgb(239, 68, 68)";
+                input.style.boxShadow = "0 0 0 4px rgba(239, 68, 68, 0.1)";
+            }
+        });
+
+        if (!isValid) {
+          errorMsg.textContent = "❌ Please fill all required fields.";
+          errorMsg.classList.remove("hidden");
+          return;
+        }
+
+        // Submit
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
+
+        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+          .then(response => {
+            submitBtn.innerText = "Sent ✅";
+            successMsg.classList.remove("hidden");
+            // Reset styles
+            inputs.forEach(input => input.style.borderColor = "");
+            
+            setTimeout(closeModal, 1400);
+          })
+          .catch((err) => {
+            console.error("Error!", err);
+            errorMsg.textContent = "❌ Error. Please try again.";
+            errorMsg.classList.remove("hidden");
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Retry";
+          });
+      });
+
+      // Initial filter run
+      filterJobs();
+    });
   </script>
 </body>
 </html>
