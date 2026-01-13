@@ -8,6 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/SD LOGO_ENHANCED PNG.png">
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   
@@ -89,10 +91,45 @@
     .modal-enter{opacity:1;transform:translateY(0) scale(1);}
     .modal-exit{opacity:0;transform:translateY(10px) scale(.98);}
     .no-scroll{overflow:hidden;height:100vh;}
+    .whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    background-color: #25D366;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.whatsapp-float img {
+    width: 30px;
+    height: 30px;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+}
+
   </style>
 </head>
 
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+  <!-- WhatsApp Floating Button -->
+<a href="https://wa.me/919482323019" 
+   class="whatsapp-float" 
+   target="_blank" 
+   title="Chat on WhatsApp">
+   <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" 
+        alt="WhatsApp" />
+</a>
+
 
   <div class="hidden md:block fixed top-0 left-0 w-full z-[60] bg-sd-dark text-white py-2 text-xs">
     <div class="container mx-auto px-6 flex justify-between items-center">
@@ -106,7 +143,7 @@
       </div>
       <div class="flex space-x-4">
         <a href="#" class="hover:text-sd-pink transition"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="hover:text-sd-pink transition"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.facebook.com/people/SD-Staffing-Solutions/100078360735973/" class="hover:text-sd-pink transition"><i class="fab fa-facebook-f"></i></a>
         <a href="#" class="hover:text-sd-pink transition"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
@@ -343,7 +380,7 @@
                     Connecting exceptional talent with top organizations. Fast hiring, reliable HR support, and compliant workforce solutions.
                 </p>
                 <div class="flex gap-3">
-                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-facebook-f text-sm"></i></a>
+                    <a href="https://www.facebook.com/people/SD-Staffing-Solutions/100078360735973/" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-facebook-f text-sm"></i></a>
                     <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-linkedin-in text-sm"></i></a>
                     <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 hover:bg-sd-pink hover:border-sd-pink hover:text-white transition"><i class="fab fa-instagram text-sm"></i></a>
                 </div>
