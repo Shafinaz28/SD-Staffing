@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+<?php
+require_once __DIR__ . '/php/load-jobs.php';
+$sdJobsJson = json_encode(sd_load_jobs(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
+?><!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Talent Acquisition | SD Staffing Solutions</title>
+  <title>SD Staffing Solutions | Jobs</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -49,25 +52,8 @@
       border-bottom: 1px solid rgba(0,0,0,0.05);
     }
 
-    /* Sidebar Links */
-    .sidebar-link { transition: all 0.2s ease-in-out; }
-    .sidebar-link:hover, .sidebar-link.active {
-      background-color: rgb(233, 30, 99);
-      color: white;
-      padding-left: 1.25rem;
-    }
-
-    /* Feature/Process Cards */
-    .process-card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border-left: 4px solid transparent;
-      height: 100%;
-    }
-    .process-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      border-left: 4px solid rgb(233, 30, 99);
-    }
+    .job-card { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .job-card:hover { transform: translateY(-6px); box-shadow: 0 22px 35px rgba(2,6,23,0.12); border-color: rgba(233, 30, 99, 0.28); }
 
     /* Scrollbar */
     ::-webkit-scrollbar { width: 8px; }
@@ -137,7 +123,12 @@
 </head>
 
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
-<!-- WhatsApp Floating Button -->
+  <script type="application/json" id="sd-jobs-data"><?php echo $sdJobsJson; ?></script>
+  <script>
+    window.__SD_JOBS__ = JSON.parse(document.getElementById('sd-jobs-data').textContent || '[]');
+  </script>
+
+  <!-- WhatsApp Floating Button -->
 <a href="https://wa.me/919482323019" 
    class="whatsapp-float" 
    target="_blank" 
@@ -146,12 +137,12 @@
         alt="WhatsApp" />
 </a>
 
-  
+
   <div class="hidden md:block fixed top-0 left-0 w-full z-[60] bg-sd-dark text-white py-2 text-xs">
     <div class="container mx-auto px-6 flex justify-between items-center">
       <div class="flex space-x-6">
         <a href="tel:+919482323019" class="hover:text-sd-pink transition">
-          <i class="fas fa-phone-alt text-sd-pink mr-2"></i> +919482323019
+          <i class="fas fa-phone-alt text-sd-pink mr-2"></i> +9194823 23019
         </a>
         <a href="mailto:Info@sdstaffingsolutions.com" class="hover:text-sd-pink transition">
           <i class="fas fa-envelope text-sd-pink mr-2"></i> Info@sdstaffingsolutions.com
@@ -169,7 +160,7 @@
     <div class="container mx-auto px-6 py-2 flex justify-between items-center relative">
 
       <a href="index.html" class="flex items-center gap-3">
-        <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing Logo" class="h-8 md:h-14 w-auto object-contain">
+        <img src="images/SD LOGO_ENHANCED PNG.png" alt="SD Staffing Logo" class="h-8 md:h-12 w-auto object-contain">
       </a>
 
       <nav class="hidden md:flex items-center space-x-8 font-semibold text-[16px]">
@@ -177,12 +168,12 @@
         <a href="about.html" class="text-sd-blue hover:text-sd-pink transition duration-300">About</a>
 
         <div class="relative group h-full">
-          <a href="services.html" class="flex items-center text-sd-pink hover:text-sd-pink transition duration-300 h-full py-2">
+          <a href="services.html" class="flex items-center text-sd-blue hover:text-sd-pink transition duration-300 h-full py-2">
             Services <i class="fas fa-chevron-down ml-1 text-xs"></i>
           </a>
           <div class="absolute left-0 top-full mt-0 w-64 bg-white border-t-2 border-sd-pink shadow-xl hidden group-hover:block rounded-b-md z-50">
             <ul class="flex flex-col text-sm divide-y divide-gray-100">
-              <li><a href="talent-acquisition.html" class="block px-5 py-3 text-sd-pink bg-pink-50 font-bold">Talent acquisition</a></li>
+              <li><a href="talent-acquisition.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Talent acquisition</a></li>
               <li><a href="permanent-staffing.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Permanent Staffing</a></li>
               <li><a href="contract-staffing.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Contract Staffing</a></li>
               <li><a href="performance-management.html" class="block px-5 py-3 text-slate-600 hover:text-sd-pink hover:bg-pink-50 transition font-medium">Performance Management</a></li>
@@ -196,7 +187,7 @@
         </div>
 
         <a href="contact.html" class="text-sd-blue hover:text-sd-pink transition duration-300">Contact</a>
-        <a href="job.php" class="text-sd-blue hover:text-sd-blue transition duration-300">Jobs</a>
+        <a href="job.php" class="text-sd-pink hover:text-sd-pink transition duration-300">Jobs</a>
 
         <button id="enquiryBtnDesktop" type="button" class="px-5 py-2.5 rounded-full bg-sd-pink text-white font-bold shadow-lg hover:bg-pink-600 transition">
           Enquiry
@@ -215,14 +206,14 @@
 
         <div class="block border-b border-gray-50">
           <div class="flex items-center justify-between">
-            <a href="services.html" class="flex-1 py-2 text-sd-pink">Services</a>
+            <a href="services.html" class="flex-1 py-2 text-gray-700 hover:text-sd-pink transition">Services</a>
             <button id="mobileServicesBtn" type="button" class="p-3 text-sd-blue focus:outline-none">
-              <i id="mobileServicesIcon" class="fas fa-chevron-down text-xs transition-transform duration-300 text-sd-pink"></i>
+              <i id="mobileServicesIcon" class="fas fa-chevron-down text-xs transition-transform duration-300"></i>
             </button>
           </div>
 
           <div id="mobileServicesList" class="hidden flex-col space-y-3 pb-4 pl-4 border-l-2 border-sd-pink/20">
-            <a href="talent-acquisition.html" class="text-sd-pink font-bold text-sm block">Talent acquisition</a>
+            <a href="talent-acquisition.html" class="text-slate-500 hover:text-sd-pink text-sm block">Talent acquisition</a>
             <a href="permanent-staffing.html" class="text-slate-500 hover:text-sd-pink text-sm block">Permanent Staffing</a>
             <a href="contract-staffing.html" class="text-slate-500 hover:text-sd-pink text-sm block">Contract Staffing</a>
             <a href="performance-management.html" class="text-slate-500 hover:text-sd-pink text-sm block">Performance Management</a>
@@ -231,12 +222,12 @@
             <a href="on-site-hr-outsourcing.html" class="text-slate-500 hover:text-sd-pink text-sm block">On-site HR Outsourcing</a>
             <a href="hr-audit.html" class="text-slate-500 hover:text-sd-pink text-sm block">HR Audit</a>
             <a href="statutory-compliance.html" class="text-slate-500 hover:text-sd-pink text-sm block">Statutory Compliance</a>
-            <a href="services.html" class="text-slate-400 font-normal text-xs mt-2 block italic">View All Services →</a>
+            <a href="services.html" class="text-sd-pink font-bold text-sm mt-2 block">View All Services →</a>
           </div>
         </div>
 
         <a href="contact.html" class="block py-2 border-b border-gray-50">Contact</a>
-        <a href="job.php" class="block py-2 border-b border-gray-50">Jobs</a>
+        <a href="job.php" class="block py-2 border-b border-gray-50 text-sd-pink">Jobs</a>
 
         <button id="enquiryBtnMobile" type="button" class="mt-4 w-full px-5 py-3 rounded-xl bg-sd-pink text-white font-bold shadow">
           Enquiry
@@ -246,141 +237,68 @@
   </header>
 
   <main class="page-top-space w-full overflow-x-hidden">
-    
-    <div class="relative bg-sd-dark py-16 md:py-20 overflow-hidden">
-      <div class="absolute inset-0 opacity-10" 
-           style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 24px 24px;"></div>
-      
-      <div class="container mx-auto px-6 relative z-10 text-center">
-        <h1 class="text-3xl md:text-5xl font-bold text-white mb-4">Talent Acquisition</h1>
-        <div class="flex justify-center items-center gap-2 text-sm text-slate-400">
-          <a href="index.html" class="hover:text-sd-pink transition">Home</a>
-          <span>/</span>
-          <a href="services.html" class="hover:text-sd-pink transition">Services</a>
-          <span>/</span>
-          <span class="text-white">Talent Acquisition</span>
+    <section class="relative bg-gradient-to-br from-sd-pink/10 via-white to-sd-blue/10 py-16 text-center">
+      <div class="container mx-auto px-6">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-bold uppercase tracking-wider text-slate-600 mb-4">
+          <span class="w-2 h-2 rounded-full bg-sd-pink"></span>
+          Careers @ SD Staffing
+        </span>
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+          Find Your Next Opportunity
+        </h1>
+        <p class="text-slate-600 max-w-2xl mx-auto">
+          Search across roles, locations, and skill sets. Apply quickly—our team will reach out if your profile matches.
+        </p>
+
+        <div class="mt-10 max-w-5xl mx-auto bg-white p-3 rounded-2xl shadow-lg border border-slate-100 grid grid-cols-1 md:grid-cols-10 gap-3">
+          <div class="md:col-span-5 relative">
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input type="text" id="searchInput" placeholder="Job title, keywords..." class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border-0 focus:ring-2 focus:ring-sd-pink/20 outline-none">
+          </div>
+          <div class="md:col-span-3 relative">
+            <i class="fas fa-map-marker-alt absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <select id="locationSelect" class="w-full pl-10 pr-10 py-3 rounded-xl bg-slate-50 border-0 focus:ring-2 focus:ring-sd-pink/20 outline-none cursor-pointer appearance-none">
+              <option value="all">All Locations</option>
+              <option value="chennai">Chennai</option>
+              <option value="bangalore">Bangalore</option>
+              <option value="mumbai">Mumbai</option>
+              <option value="goa">Goa</option>
+            </select>
+            <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+          </div>
+          <div class="md:col-span-2 flex gap-2">
+            <button id="searchBtn" class="flex-1 bg-sd-dark hover:bg-slate-800 text-white px-4 py-3 rounded-xl font-bold transition">Find Job</button>
+            <button id="clearBtn" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-3 rounded-xl font-bold transition">Clear</button>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="container mx-auto px-6 py-12 md:py-16">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-
-        <div class="lg:col-span-4 order-2 lg:order-1">
-          <div class="sticky top-32 space-y-8">
-            
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-              <h3 class="text-lg font-bold text-sd-dark mb-4 pl-3 border-l-4 border-sd-pink">Our Services</h3>
-              <ul class="space-y-2">
-                <li><a href="talent-acquisition.html" class="sidebar-link active block w-full px-4 py-3 rounded-lg text-sm font-semibold">Talent Acquisition</a></li>
-                <li><a href="permanent-staffing.html" class="sidebar-link block w-full px-4 py-3 rounded-lg text-slate-600 bg-slate-50 hover:bg-pink-50 text-sm font-medium">Permanent Staffing</a></li>
-                <li><a href="contract-staffing.html" class="sidebar-link block w-full px-4 py-3 rounded-lg text-slate-600 bg-slate-50 hover:bg-pink-50 text-sm font-medium">Contract Staffing</a></li>
-                <li><a href="performance-management.html" class="sidebar-link block w-full px-4 py-3 rounded-lg text-slate-600 bg-slate-50 hover:bg-pink-50 text-sm font-medium">Performance Management</a></li>
-                <li><a href="training-development.html" class="sidebar-link block w-full px-4 py-3 rounded-lg text-slate-600 bg-slate-50 hover:bg-pink-50 text-sm font-medium">Training Development</a></li>
-                <li><a href="payroll-outsourcing.html" class="sidebar-link block w-full px-4 py-3 rounded-lg text-slate-600 bg-slate-50 hover:bg-pink-50 text-sm font-medium">Payroll Outsourcing</a></li>
-                <li><a href="on-site-hr-outsourcing.html" class="sidebar-link block w-full px-4 py-3 rounded-lg text-slate-600 bg-slate-50 hover:bg-pink-50 text-sm font-medium">On site Hr Outsourcing</a></li>
-                <li><a href="hr-audit.html" class="sidebar-link block w-full px-4 py-3 rounded-lg text-slate-600 bg-slate-50 hover:bg-pink-50 text-sm font-medium">HR Audit</a></li>
-                <li><a href="statutory-compliance.html" class="sidebar-link block w-full px-4 py-3 rounded-lg text-slate-600 bg-slate-50 hover:bg-pink-50 text-sm font-medium">Statutory Compliance</a></li>
-              </ul>
-            </div>
-
-            <div class="bg-sd-dark rounded-xl p-8 text-white text-center shadow-lg relative overflow-hidden">
-              <div class="absolute top-0 right-0 w-32 h-32 bg-sd-pink rounded-full mix-blend-overlay filter blur-3xl opacity-20"></div>
-              <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 text-sd-pink">
-                <i class="fas fa-headset text-2xl"></i>
-              </div>
-              <h4 class="font-bold text-xl mb-2">Need Hiring Help?</h4>
-              <p class="text-sm text-slate-300 mb-6">Speak with our recruitment experts today.</p>
-              <a href="tel:+919482323019" class="block text-2xl font-bold text-sd-pink mb-1 hover:text-white transition">+919482323019</a>
-              <a href="mailto:Info@sdstaffingsolutions.com" class="text-sm text-slate-400 hover:text-white transition">Info@sdstaffingsolutions.com</a>
-            </div>
+    <section id="openings" class="py-16 bg-white min-h-[600px]">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <div class="flex justify-between items-end mb-8">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900">Latest Openings</h2>
+            <p id="resultsCount" class="text-sm text-slate-500 mt-1">Showing all roles</p>
           </div>
+          <button onclick="resetFilters()" class="text-sd-pink text-sm font-bold hover:underline hidden" id="resetBtn">Reset Filters</button>
         </div>
 
-        <div class="lg:col-span-8 order-1 lg:order-2">
-          
-          <div class="mb-12">
-            <h2 class="text-3xl font-bold text-sd-dark mb-6">Strategic Talent Acquisition</h2>
-            
-            <div class="relative h-64 md:h-80 w-full rounded-2xl overflow-hidden mb-8 shadow-md group">
-              <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                   alt="Talent Acquisition Meeting" 
-                   class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-            </div>
-            
-            <p class="text-lg text-slate-700 leading-relaxed mb-4">
-              Talent acquisition is the process of finding and acquiring skilled human labor for organizational needs and to meet any labor requirement. It goes beyond simple recruitment; it is a strategic approach to identifying, attracting, and onboarding top talent to efficiently and effectively meet dynamic business needs.
-            </p>
-            <p class="text-base text-slate-600 leading-relaxed mb-4">
-               The term Talent Acquisition (TA) is often used in the context of recruiting and HR sections. The talent acquisition team within a company is responsible for finding, acquiring, assessing, and hiring candidates to fill roles that are required to meet company goals and fill project requirements.
-            </p>
-             <p class="text-base text-slate-600 leading-relaxed">
-              At <strong>SD Staffing Solutions</strong>, we ensure that your company attracts the right people who align with your culture and long-term goals. We handle the entire lifecycle from sourcing to onboarding.
-            </p>
-          </div>
+        <div class="grid md:grid-cols-2 gap-6" id="jobContainer">
+          <p class="md:col-span-2 text-center py-12 text-slate-500 text-sm">Loading openings…</p>
+        </div>
 
-          <div class="mb-8">
-            <h3 class="text-2xl font-bold text-sd-dark mb-6 border-b pb-2">Our Process</h3>
-            <div class="space-y-6">
-
-              <div class="process-card bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-5">
-                <div class="w-14 h-14 shrink-0 bg-blue-50 text-sd-blue rounded-full flex items-center justify-center text-xl shadow-inner">
-                  <i class="fas fa-search"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-bold text-sd-dark mb-2">1. Job Analysis</h4>
-                  <p class="text-slate-600 text-sm leading-relaxed">
-                    We capture the job tasks and requirements in a detailed job description as this will assist us in knowing the objectives of the search. Starting recruitment with accurate Job Analysis and Job Description ensures the recruitment starts off on a proper track of success.
-                  </p>
-                </div>
-              </div>
-
-              <div class="process-card bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-5">
-                <div class="w-14 h-14 shrink-0 bg-pink-50 text-sd-pink rounded-full flex items-center justify-center text-xl shadow-inner">
-                  <i class="fas fa-bullhorn"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-bold text-sd-dark mb-2">2. Sourcing</h4>
-                  <p class="text-slate-600 text-sm leading-relaxed">
-                    This process involves advertising which is a common part of the recruitment process, often encompassing multiple media, such as newspapers, internet portals, industry publications, career centers, and graduate recruitment programs at universities.
-                  </p>
-                </div>
-              </div>
-
-              <div class="process-card bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-5">
-                <div class="w-14 h-14 shrink-0 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center text-xl shadow-inner">
-                  <i class="fas fa-users-viewfinder"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-bold text-sd-dark mb-2">3. Screening & Selection</h4>
-                  <p class="text-slate-600 text-sm leading-relaxed">
-                    Suitability of the candidate is assessed by evaluating their skills, knowledge, and relevant experience. Qualifications are verified using our advanced recruitment system applications and one-on-one interviews. Our screening methodology matches the client's briefing and job description.
-                  </p>
-                </div>
-              </div>
-
-              <div class="process-card bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-5">
-                <div class="w-14 h-14 shrink-0 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-xl shadow-inner">
-                  <i class="fas fa-handshake"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-bold text-sd-dark mb-2">4. Onboarding</h4>
-                  <p class="text-slate-600 text-sm leading-relaxed">
-                    Just-in consultancy helps new employees become productive members of your organization immediately. We provide a planned introduction to new employees to ensure smooth integration into the company culture.
-                  </p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
+        <div id="noResults" class="hidden mt-10 text-center border border-dashed border-slate-200 rounded-3xl p-10 bg-slate-50">
+          <div class="w-14 h-14 rounded-2xl bg-white border border-slate-200 mx-auto flex items-center justify-center text-slate-500"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <h3 class="mt-4 text-lg font-bold text-slate-900">No matching jobs found</h3>
+          <p class="mt-1 text-sm text-slate-600">Try a different keyword or select “All Locations”.</p>
+          <button onclick="resetFilters()" class="mt-5 inline-flex items-center justify-center px-5 py-2.5 rounded-2xl bg-sd-pink text-white font-bold shadow hover:bg-pink-600 transition">Reset Filters</button>
         </div>
       </div>
-    </div>
+    </section>
   </main>
 
-<footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800 w-full">
+  <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800 w-full">
     <div class="container mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
             
@@ -501,13 +419,13 @@
             </div>
             <div class="relative">
               <i class="fas fa-briefcase absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-              <select name="position" class="widget-input text-slate-700 bg-white" required>
-                <option value="" disabled selected>Select position/service *</option>
-                <option value="Talent Acquisition" selected>Talent Acquisition</option>
-                <option value="Hiring / Staffing">Hiring / Staffing</option>
-                <option value="Job Seeker">Job Seeker</option>
-                <option value="Training">Training</option>
-                <option value="Payroll / Compliance">Payroll / Compliance</option>
+              <select name="position" id="positionSelect" class="widget-input text-slate-700 bg-white" required>
+                <option value="" disabled selected>Select position *</option>
+                <option value="Sr. Sales Officer">Sr. Sales Officer</option>
+                <option value="Sales Officer">Sales Officer</option>
+                <option value="Service Engineer">Service Engineer</option>
+                <option value="HR Executive">HR Executive</option>
+                <option value="Production Supervisor">Production Supervisor</option>
                 <option value="Other">Other</option>
               </select>
             </div>
@@ -565,7 +483,7 @@
         });
       }
 
-      // 3. Navbar shadow
+      // 3. Navbar scroll shadow
       window.addEventListener("scroll", () => {
         const navbar = document.getElementById("navbar");
         if (!navbar) return;
@@ -573,17 +491,192 @@
         else navbar.classList.remove("shadow-md");
       });
 
-      // 4. GSAP Animations
-      if (window.gsap && window.ScrollTrigger) {
-        gsap.registerPlugin(ScrollTrigger);
-        
-        gsap.from(".process-card", {
-          scrollTrigger: { trigger: ".space-y-6", start: "top 85%" },
-          y: 20, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power2.out", immediateRender: false
+      const jobContainer = document.getElementById('jobContainer');
+      const searchInput = document.getElementById('searchInput');
+      const locationSelect = document.getElementById('locationSelect');
+      const searchBtn = document.getElementById('searchBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const resultsCount = document.getElementById('resultsCount');
+      const noResults = document.getElementById('noResults');
+      const positionSelect = document.getElementById('positionSelect');
+      let lastClickedPosition = "";
+
+      const CATEGORY_BADGE = {
+        Sales: 'bg-green-100 text-green-700',
+        Technical: 'bg-blue-100 text-blue-700',
+        General: 'bg-slate-100 text-slate-700'
+      };
+
+      function escHtml(s) {
+        return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      function jobCardHtml(job) {
+        const cat = job.category || 'General';
+        const badge = CATEGORY_BADGE[cat] || CATEGORY_BADGE.General;
+        const locKey = (job.location || '').toLowerCase();
+        const locDisplay = job.locationDisplay || job.location || '';
+        const keywords = (job.keywords || `${job.title} ${job.company}`).toLowerCase();
+        const icon = cat === 'Technical' ? 'tools' : 'briefcase';
+        const area = job.area ? `<p class="text-xs text-slate-400">${escHtml(job.area)}</p>` : '<p class="text-xs text-slate-400"></p>';
+        return `
+          <article class="job-card border border-slate-100 bg-white rounded-2xl p-7 relative group"
+            data-title="${escHtml(keywords)}" data-location="${escHtml(locKey)}" data-position="${escHtml(job.title)}">
+            <div class="absolute top-0 right-0 ${badge} text-[10px] font-bold px-3 py-1 rounded-bl-2xl uppercase">${escHtml(cat)}</div>
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-500 text-xl"><i class="fas fa-${icon}"></i></div>
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 group-hover:text-sd-pink transition">${escHtml(job.title)}</h3>
+                <p class="text-sm text-slate-500">${escHtml(job.company)}</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-4 text-xs font-medium text-slate-600">
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-location-dot mr-1"></i>${escHtml(locDisplay)}</span>
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-indian-rupee-sign mr-1"></i>${escHtml(job.salary)}</span>
+              <span class="px-3 py-1 rounded-xl bg-slate-50"><i class="fa-solid fa-briefcase mr-1"></i>${escHtml(job.experience)}</span>
+            </div>
+            <div class="mt-4 pt-4 border-t border-slate-50 flex justify-between items-center">
+              ${area}
+              <button type="button" class="open-apply-modal text-sd-pink font-bold text-sm hover:underline">Apply Now →</button>
+            </div>
+          </article>`;
+      }
+
+      function bindApplyButtons() {
+        document.querySelectorAll('.open-apply-modal').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const card = e.target.closest('.job-card');
+            lastClickedPosition = card?.getAttribute('data-position') || "";
+            openModal();
+          });
         });
       }
 
-      // 5. Modal Logic
+      function animateJobCards() {
+        if (window.gsap && window.ScrollTrigger && document.querySelectorAll('.job-card').length) {
+          gsap.registerPlugin(ScrollTrigger);
+          gsap.from(".job-card", {
+            scrollTrigger: { trigger: "#jobContainer", start: "top 85%" },
+            y: 20, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power2.out", immediateRender: false
+          });
+        }
+      }
+
+      function updatePositionOptions(jobs) {
+        if (!positionSelect) return;
+        const titles = [...new Set(jobs.map(j => j.title).filter(Boolean))];
+        const extras = ['HR Executive', 'Production Supervisor', 'Other'];
+        const all = [...new Set([...titles, ...extras])];
+        positionSelect.innerHTML = '<option value="" disabled selected>Select position *</option>' +
+          all.map(t => `<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
+      }
+
+      function displayJobs(jobs) {
+        if (!Array.isArray(jobs)) jobs = [];
+        noResults.classList.add('hidden');
+        if (!jobs.length) {
+          jobContainer.innerHTML = `
+            <div class="md:col-span-2 text-center py-16 rounded-2xl border border-dashed border-slate-200 bg-slate-50">
+              <p class="font-bold text-slate-700">No openings listed yet</p>
+              <p class="text-sm text-slate-500 mt-1">Check back soon for new roles.</p>
+            </div>`;
+          resultsCount.textContent = 'No roles listed';
+          return;
+        }
+        jobContainer.innerHTML = jobs.map(jobCardHtml).join('');
+        bindApplyButtons();
+        filterJobs();
+        animateJobCards();
+        updatePositionOptions(jobs);
+      }
+
+      function jobsApiUrl() {
+        const t = Date.now();
+        if (window.location.protocol === 'file:') {
+          return 'http://localhost/SDstaffing/php/get-jobs.php?t=' + t;
+        }
+        return new URL('php/get-jobs.php', window.location.href).href + '?t=' + t;
+      }
+
+      async function fetchJobsList() {
+        const res = await fetch(jobsApiUrl());
+        const data = await res.json();
+        if (!res.ok || data.error) throw new Error(data.error || 'Failed');
+        return Array.isArray(data) ? data : [];
+      }
+
+      async function loadJobsFromServer() {
+        const embedded = Array.isArray(window.__SD_JOBS__) ? window.__SD_JOBS__ : null;
+        if (embedded && embedded.length) {
+          displayJobs(embedded);
+          return;
+        }
+        for (let attempt = 0; attempt < 4; attempt++) {
+          try {
+            displayJobs(await fetchJobsList());
+            return;
+          } catch (e) {
+            if (attempt < 3) await new Promise(r => setTimeout(r, 800));
+          }
+        }
+        if (embedded && embedded.length) displayJobs(embedded);
+        else displayJobs([]);
+      }
+
+      loadJobsFromServer();
+
+      // 5. Job Filtering Logic
+
+      function filterJobs() {
+        const searchTerm = (searchInput.value || '').toLowerCase().trim();
+        const locationTerm = (locationSelect.value || 'all').toLowerCase();
+
+        let visible = 0;
+        const cards = document.querySelectorAll('.job-card');
+
+        cards.forEach(card => {
+          const title = (card.getAttribute('data-title') || '').toLowerCase();
+          const location = (card.getAttribute('data-location') || '').toLowerCase();
+
+          const matchesSearch = title.includes(searchTerm);
+          const matchesLocation = locationTerm === 'all' || location === locationTerm;
+
+          if (matchesSearch && matchesLocation) {
+            card.style.display = 'block';
+            visible++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        const filtersActive = searchTerm !== '' || locationTerm !== 'all';
+        resetBtn.classList.toggle('hidden', !filtersActive);
+
+        resultsCount.textContent = filtersActive
+          ? `Showing ${visible} result${visible === 1 ? '' : 's'}`
+          : 'Showing all roles';
+
+        if (cards.length === 0) {
+          noResults.classList.add('hidden');
+        } else {
+          noResults.classList.toggle('hidden', visible !== 0);
+        }
+      }
+
+      function resetFilters() {
+        searchInput.value = '';
+        locationSelect.value = 'all';
+        filterJobs();
+      }
+
+      searchBtn.addEventListener('click', filterJobs);
+      clearBtn.addEventListener('click', resetFilters);
+      searchInput.addEventListener('keyup', (e) => { if (e.key === 'Enter') filterJobs(); });
+      locationSelect.addEventListener('change', filterJobs);
+
+
+      // 6. Modal Logic
       const modal = document.getElementById("enquiryModal");
       const box = document.getElementById("enquiryBox");
       const backdrop = document.getElementById("enquiryBackdrop");
@@ -605,12 +698,16 @@
         modal.classList.remove("hidden");
         modal.setAttribute("aria-hidden", "false");
         document.body.classList.add("no-scroll");
-        
+
         requestAnimationFrame(() => {
           backdrop.classList.remove("opacity-0");
           box.classList.remove("modal-exit");
           box.classList.add("modal-enter");
         });
+
+        if (lastClickedPosition && positionSelect) {
+          positionSelect.value = lastClickedPosition;
+        }
 
         setTimeout(() => {
           const first = form.querySelector('input[name="firstName"]');
@@ -622,7 +719,7 @@
         backdrop.classList.add("opacity-0");
         box.classList.remove("modal-enter");
         box.classList.add("modal-exit");
-        
+
         setTimeout(() => {
           modal.classList.add("hidden");
           modal.setAttribute("aria-hidden", "true");
@@ -638,14 +735,20 @@
           });
           submitBtn.disabled = false;
           submitBtn.innerText = "Send Application";
+          lastClickedPosition = ""; 
         }, 220);
       }
 
-      openBtns.forEach(btn => btn.addEventListener("click", openModal));
+      openBtns.forEach(btn => btn.addEventListener("click", () => {
+          lastClickedPosition = ""; // Reset if opened via main button
+          openModal();
+      }));
+      
       closeHeader?.addEventListener("click", closeModal);
       backdrop?.addEventListener("click", closeModal);
       resetFormBtn?.addEventListener("click", () => {
           form.reset();
+          if (lastClickedPosition && positionSelect) positionSelect.value = lastClickedPosition;
           successMsg.classList.add("hidden");
           errorMsg.classList.add("hidden");
       });
@@ -660,7 +763,7 @@
       form.addEventListener("submit", (e) => {
         e.preventDefault();
 
-        // 1. Reset Errors
+        // Reset Errors
         const inputs = form.querySelectorAll("input, select, textarea");
         inputs.forEach(input => {
              input.style.borderColor = ""; 
@@ -669,7 +772,7 @@
         errorMsg.classList.add("hidden");
         successMsg.classList.add("hidden");
 
-        // 2. Validate
+        // Validate
         let isValid = true;
         inputs.forEach(input => {
             if (!input.checkValidity()) {
@@ -685,7 +788,7 @@
           return;
         }
 
-        // 3. Submit
+        // Submit
         submitBtn.disabled = true;
         submitBtn.innerText = "Sending...";
 
