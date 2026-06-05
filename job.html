@@ -449,18 +449,18 @@
           </div>
           <div class="flex items-center gap-3">
             <div class="view-toggle" role="group" aria-label="Job layout">
-              <button type="button" id="gridViewBtn" class="view-toggle-btn active" aria-label="Grid view" title="Grid view">
-                <i class="fa-solid fa-table-cells"></i>
-              </button>
-              <button type="button" id="listViewBtn" class="view-toggle-btn" aria-label="List view" title="List view">
+              <button type="button" id="listViewBtn" class="view-toggle-btn active" aria-label="List view" title="List view">
                 <i class="fa-solid fa-list"></i>
+              </button>
+              <button type="button" id="gridViewBtn" class="view-toggle-btn" aria-label="Grid view" title="Grid view">
+                <i class="fa-solid fa-table-cells"></i>
               </button>
             </div>
             <button onclick="resetFilters()" class="text-sd-pink text-sm font-bold hover:underline hidden" id="resetBtn">Reset Filters</button>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" id="jobContainer">
+        <div class="view-list flex flex-col gap-4" id="jobContainer">
           <p class="w-full text-center py-12 text-slate-500 text-sm">Loading openings…</p>
         </div>
 
@@ -1243,8 +1243,10 @@
 
       try {
         const saved = localStorage.getItem(VIEW_KEY);
-        if (saved === 'list') setJobView('list');
-      } catch (_) {}
+        setJobView(saved === 'grid' ? 'grid' : 'list');
+      } catch (_) {
+        setJobView('list');
+      }
 
       // 6. Job Filtering Logic
 
