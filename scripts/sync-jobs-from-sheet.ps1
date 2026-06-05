@@ -29,8 +29,9 @@ function Rows-FromGviz($data) {
   $headers = @($data.table.cols | ForEach-Object { [string]$_.label })
   $col = @{
     timestamp = Find-ColIndex $headers @('timestamp')
-    title     = Find-ColIndex $headers @('title')
-    company   = Find-ColIndex $headers @('company')
+    title       = Find-ColIndex $headers @('title')
+    description = Find-ColIndex $headers @('description')
+    company     = Find-ColIndex $headers @('company')
     category  = Find-ColIndex $headers @('category')
     location  = Find-ColIndex $headers @('location (select city)', 'location')
     area      = Find-ColIndex $headers @('area / locality', 'area')
@@ -56,8 +57,9 @@ function Rows-FromGviz($data) {
     $jobs += [ordered]@{
       id         = [string]$idx
       timestamp  = & $get $col.timestamp
-      title      = $title
-      company    = $company
+      title       = $title
+      description = & $get $col.description
+      company     = $company
       category   = if (& $get $col.category) { & $get $col.category } else { 'General' }
       location   = & $get $col.location
       area       = & $get $col.area
@@ -79,8 +81,9 @@ function Normalize-ApiRow($row, $index) {
   [ordered]@{
     id         = if ($row.id) { "$($row.id)" } else { [string]($index + 1) }
     timestamp  = & $pick @('timestamp', 'Timestamp')
-    title      = & $pick @('title', 'Title')
-    company    = & $pick @('company', 'Company')
+    title       = & $pick @('title', 'Title')
+    description = & $pick @('description', 'Description')
+    company     = & $pick @('company', 'Company')
     category   = if (& $pick @('category', 'Category')) { & $pick @('category', 'Category') } else { 'General' }
     location   = & $pick @('location', 'Location (Select city)', 'Location')
     area       = & $pick @('area', 'Area / Locality', 'Area')

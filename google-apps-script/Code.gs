@@ -40,6 +40,7 @@ function readJobsAsJson() {
   var col = {
     timestamp: colIndex_(headers, ['timestamp']),
     title: colIndex_(headers, ['title']),
+    description: colIndex_(headers, ['description']),
     company: colIndex_(headers, ['company']),
     category: colIndex_(headers, ['category']),
     location: colIndex_(headers, ['location (select city)', 'location']),
@@ -59,6 +60,7 @@ function readJobsAsJson() {
       id: String(r),
       timestamp: val_(row, col.timestamp),
       title: title,
+      description: val_(row, col.description),
       company: company,
       category: val_(row, col.category) || 'General',
       location: val_(row, col.location),
