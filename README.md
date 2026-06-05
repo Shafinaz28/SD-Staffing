@@ -1,49 +1,56 @@
 # SD Staffing website
 
-## What you need (dependencies)
+## Jobs: Google Sheet → JSON → website
 
-**Only [XAMPP](https://www.apachefriends.org/)** — Apache, MySQL, and PHP.  
-There is **no** `package.json`, **no** Composer, and **no** extra libraries to install.
+```
+Google Form  →  Google Sheet  →  jobs.json format  →  job.html
+```
 
-| Piece        | Role                          |
-|-------------|-------------------------------|
-| Apache      | Serves HTML + PHP             |
-| MySQL       | Stores jobs and admin users   |
-| PHP (PDO)   | Built into XAMPP              |
-| Tailwind CDN| Loaded in admin pages only    |
+All sheet columns map to `data/jobs.json`:
+
+| Sheet column | JSON field |
+|--------------|------------|
+| Timestamp | `timestamp` |
+| Title | `title` |
+| Company | `company` |
+| Category | `category` |
+| Location (Select city) | `location` |
+| Area / Locality | `area` |
+| Salary | `salary` |
+| Experience | `experience` |
+
+### On the website (automatic)
+
+`job.html` fetches **all rows** from your Google Sheet as JSON, saves them in the browser cache, and shows job cards. It falls back to **`data/jobs.json`** if the sheet is not reachable.
+
+Refresh every **45 seconds** for new Form entries.
+
+### Store data in `data/jobs.json` (not only on screen)
+
+The website **shows** JSON from Google. To **save** the same data into `data/jobs.json`:
+
+| How you open the site | jobs.json updates? |
+|-------------------------|-------------------|
+| **XAMPP** `http://localhost/SDstaffing/job.html` | Yes — auto-saves every refresh (uses `api/save-jobs.php`) |
+| **Double-click** `start-website.bat` | Yes — syncs file before opening browser |
+| **Live Server** / `file://` | No auto file write — double-click **`sync-jobs.bat`** |
+
+Manual sync anytime:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/sync-jobs-from-sheet.ps1
+```
+
+Or double-click **`sync-jobs.bat`**.
+
+**Live JSON API:**  
+https://script.google.com/macros/s/AKfycbyI_DYlw2ki-OkCjImjGqaeaontFMo8FWj6S0gxDNhhVZghPR4vIb7kEut_os9xF1BljQ/exec
+
+Configured in `job.html` (`SHEETS_JOBS_API`) and `scripts/sync-jobs-from-sheet.ps1`.
+
+**Your sheet:**  
+https://docs.google.com/spreadsheets/d/1ndJnRvRoTkJcbXCn0gzOOQNPH_XzpcVd6JuIceXqaMo/edit?gid=274791102
 
 ## Quick start
 
-1. Copy this folder to `C:\xampp\htdocs\SDstaffing`
-2. XAMPP → start **Apache** and **MySQL**
-3. Open once: http://localhost/SDstaffing/php/setup-database.php
-4. Admin login: http://localhost/SDstaffing/admin-login.html  
-   Default: **admin** / **admin123**
-
-Double-click `start-website.bat` to open the home page (Apache + MySQL must be running).
-
-## Folder layout
-
-```
-SDstaffing/
-├── index.html, job.html, about.html, …   ← public website (HTML only)
-├── admin-login.html                      ← staff login page
-├── start-website.bat                     ← opens site in browser
-├── php/                                  ← all backend code lives here
-│   ├── db.php                            ← MySQL settings + connection
-│   ├── auth.php                          ← login sessions
-│   ├── setup-database.php                ← run once to create tables
-│   ├── login.php, logout.php
-│   ├── get-jobs.php, jobs-embed.php      ← public job listings
-│   ├── save-job.php, update-job.php, delete-job.php
-│   └── admin-job.php, admin-edit-job.php, admin-users.php
-└── database/setup.sql                    ← optional reference (setup uses PHP)
-```
-
-## How it works
-
-1. Run setup once → creates database `sd_staffing`, tables, default admin, sample jobs.
-2. Staff log in at `admin-login.html` → post jobs in `php/admin-job.php`.
-3. Visitors see jobs on `job.html` (data from `php/get-jobs.php`).
-
-To change MySQL username/password, edit `php/db.php`.
+Open `job.html` or run `start-website.bat`.
