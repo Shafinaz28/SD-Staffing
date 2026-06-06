@@ -77,6 +77,8 @@
     .job-view-more-btn {
       color: rgb(233, 30, 99);
       transition: color .2s ease, opacity .2s ease;
+      display: inline-block;
+      margin-top: 0.25rem;
     }
     .job-view-more-btn:hover {
       color: rgb(190, 24, 93);
@@ -164,6 +166,11 @@
     #jobContainer.view-list .job-card-header h3 {
       font-size: 1.05rem;
       line-height: 1.3;
+    }
+    #jobContainer.view-list .job-view-more-btn {
+      font-size: 0.75rem;
+      margin-top: 0.125rem;
+      margin-bottom: 0.125rem;
     }
     #jobContainer.view-list .job-card-company {
       margin-top: 0.125rem;
@@ -567,19 +574,20 @@
 
   <div id="jobDescModal" class="fixed inset-0 z-[100] hidden" aria-hidden="true" role="dialog" aria-modal="true">
     <div id="jobDescBackdrop" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm opacity-0 transition-opacity duration-200"></div>
-    <div class="relative min-h-screen flex items-center justify-center p-4">
+    <div class="relative min-h-screen flex items-start justify-center p-4 pt-16 md:pt-24">
       <div id="jobDescBox" class="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden modal-exit transition-all duration-200">
         <div class="bg-sd-dark px-5 py-4 flex items-center justify-between gap-3">
           <div class="min-w-0">
-            <p class="text-[10px] font-bold uppercase tracking-wider text-sd-pink">View More</p>
+            <p class="text-[10px] font-bold uppercase tracking-wider text-sd-pink">Job Description</p>
             <h3 id="jobDescTitle" class="text-white font-semibold text-lg leading-tight truncate"></h3>
           </div>
           <button id="jobDescClose" type="button" class="text-slate-300 hover:text-white transition shrink-0" aria-label="Close">
             <i class="fas fa-times"></i>
           </button>
         </div>
-        <div class="p-6 max-h-[70vh] overflow-y-auto custom-scroll">
-          <p id="jobDescText" class="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap"></p>
+        <div id="jobDescScroll" class="p-6 max-h-[55vh] overflow-y-auto custom-scroll text-left">
+          <p id="jobDescFirstLine" class="text-base font-semibold text-slate-900 leading-snug mb-3"></p>
+          <p id="jobDescText" class="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap text-left"></p>
         </div>
         <div class="px-6 pb-6 flex justify-end">
           <button type="button" id="jobDescApply" class="job-apply-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sd-pink text-white text-sm font-bold shadow-md hover:bg-pink-600">
@@ -887,7 +895,7 @@
         return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
       }
 
-      function jobCardHtml(job) {
+      function jobCardHtml(job, index) {
         const style = getCategoryStyle(job.category);
         const cat = style.label;
         const locKey = (job.location || '').toLowerCase();
@@ -899,7 +907,7 @@
         const areaHtml = job.area
           ? `<p class="text-xs text-slate-500 flex items-center gap-1.5 min-w-0"><i class="fa-solid fa-map-pin ${style.chipIcon} shrink-0 text-[10px]"></i><span class="truncate">${escHtml(job.area)}</span></p>`
           : '<span></span>';
-        const viewMoreBtn = `<button type="button" class="job-view-more-btn text-sm font-bold whitespace-nowrap hover:underline" data-job-id="${escHtml(job.id)}">Job Description</button>`;
+        const viewMoreBtn = `<button type="button" class="job-view-more-btn text-sm font-bold whitespace-nowrap hover:underline" data-job-index="${index}">Job Description</button>`;
         return `
           <article class="job-card group overflow-hidden rounded-3xl border border-slate-100/90 bg-white shadow-md relative flex flex-col"
             data-title="${escHtml(keywords)}" data-location="${escHtml(locKey)}" data-position="${escHtml(job.title)}">
@@ -912,6 +920,7 @@
                   </div>
                   <div class="min-w-0 pt-0.5">
                     <h3 class="text-xl font-bold text-slate-900 leading-snug capitalize group-hover:text-sd-pink transition-colors">${escHtml(titleCase(job.title))}</h3>
+                    ${viewMoreBtn}
                     <p class="job-card-company text-sm text-slate-500 mt-1 flex items-center gap-1.5">
                       <i class="fa-solid fa-building text-slate-300 text-xs shrink-0"></i>
                       <span class="truncate capitalize">${escHtml(job.company)}</span>
@@ -934,12 +943,9 @@
               </div>
               <div class="job-card-footer mt-auto pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
                 ${areaHtml}
-                <div class="job-card-actions ml-auto flex flex-wrap items-center gap-2">
-                  ${viewMoreBtn}
-                  <button type="button" class="open-apply-modal job-apply-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sd-pink text-white text-sm font-bold shadow-md hover:bg-pink-600">
-                    Apply Now <i class="fa-solid fa-arrow-right text-xs"></i>
-                  </button>
-                </div>
+                <button type="button" class="open-apply-modal job-apply-btn ml-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sd-pink text-white text-sm font-bold shadow-md hover:bg-pink-600">
+                  Apply Now <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
               </div>
             </div>
           </article>`;
@@ -958,7 +964,8 @@
       function bindViewMoreButtons() {
         document.querySelectorAll('.job-view-more-btn').forEach(btn => {
           btn.addEventListener('click', () => {
-            const job = allJobs.find(j => String(j.id) === btn.getAttribute('data-job-id'));
+            const index = Number(btn.getAttribute('data-job-index'));
+            const job = allJobs[index];
             if (!job) return;
             openJobDescModal(job);
           });
@@ -997,7 +1004,7 @@
           resultsCount.textContent = 'No roles listed';
           return;
         }
-        jobContainer.innerHTML = jobs.map(jobCardHtml).join('');
+        jobContainer.innerHTML = jobs.map((job, index) => jobCardHtml(job, index)).join('');
         bindApplyButtons();
         bindViewMoreButtons();
         filterJobs();
@@ -1012,7 +1019,7 @@
       };
       const SHEETS_JOBS_API = 'https://script.google.com/macros/s/AKfycbyI_DYlw2ki-OkCjImjGqaeaontFMo8FWj6S0gxDNhhVZghPR4vIb7kEut_os9xF1BljQ/exec';
       const JOBS_JSON_FILE = 'data/jobs.json';
-      const JOBS_CACHE_KEY = 'sd_jobs_google_json';
+      const JOBS_CACHE_KEY = 'sd_jobs_google_json_v2';
       const JOBS_AUTO_REFRESH_MS = 45000;
 
       const LOCATION_SLUG = {
@@ -1029,6 +1036,11 @@
         return LOCATION_SLUG[key] || key.replace(/\s+/g, '');
       }
 
+      function jobRowKey(n) {
+        if (n.timestamp) return String(n.timestamp).trim().toLowerCase();
+        return [n.title, n.company, n.location, n.area, n.salary, n.experience].join('||').toLowerCase();
+      }
+
       /** Google Apps Script / Form column names → jobs.json shape */
       function normalizeSheetRow(row, index) {
         const pick = function () {
@@ -1039,7 +1051,7 @@
           return '';
         };
         return {
-          id: pick('id', 'Id') || String(index + 1),
+          id: pick('id', 'Id') || jobRowKey({ timestamp: pick('timestamp', 'Timestamp'), title: pick('title', 'Title'), company: pick('company', 'Company'), location: pick('location', 'Location (Select city)', 'Location'), area: pick('area', 'Area / Locality', 'Area'), salary: pick('salary', 'Salary'), experience: pick('experience', 'Experience') }) || String(index + 1),
           timestamp: pick('timestamp', 'Timestamp'),
           title: pick('title', 'Title'),
           description: pick('description', 'Description'),
@@ -1077,11 +1089,17 @@
       }
 
       function findColIndex(headers, names) {
-        for (let i = 0; i < headers.length; i++) {
-          const h = headers[i].toLowerCase();
-          for (const n of names) {
-            const want = n.toLowerCase();
-            if (h === want || h.includes(want)) return i;
+        for (let n = 0; n < names.length; n++) {
+          const want = names[n].toLowerCase();
+          for (let i = 0; i < headers.length; i++) {
+            if (headers[i].toLowerCase() === want) return i;
+          }
+        }
+        for (let n = 0; n < names.length; n++) {
+          const want = names[n].toLowerCase();
+          for (let i = 0; i < headers.length; i++) {
+            const h = headers[i].toLowerCase();
+            if (h.includes(want)) return i;
           }
         }
         return -1;
@@ -1211,12 +1229,17 @@
 
       /** Pull all rows from Google Sheet as JSON (same shape as jobs.json) */
       async function fetchJobsFromGoogle() {
+        try {
+          return await fetchJobsFromGoogleSheet();
+        } catch (e) {
+          console.warn('Google Sheet:', e.message);
+        }
         if (SHEETS_JOBS_API) {
           try { return await fetchJobsFromAppsScript(); } catch (e) {
             console.warn('Sheet API:', e.message);
           }
         }
-        return await fetchJobsFromGoogleSheet();
+        throw new Error('No job source available');
       }
 
       /** Save to data/jobs.json on disk (works on localhost / XAMPP with api/save-jobs.php) */
@@ -1238,27 +1261,23 @@
         }
       }
 
-      async function enrichRowsWithDescriptions(rows) {
+      async function syncDescriptionsFromSheet(rows) {
         if (!rows.length) return rows;
-        const missing = rows.some((row, i) => !normalizeSheetRow(row, i).description);
-        if (!missing) return rows;
         try {
           const sheetRows = await fetchJobsFromGoogleSheet();
-          const descMap = new Map();
+          const descByKey = new Map();
           sheetRows.forEach((sr, i) => {
             const n = normalizeSheetRow(sr, i);
-            if (!n.description) return;
-            descMap.set((n.title + '|' + n.company).toLowerCase(), n.description);
+            if (n.description) descByKey.set(jobRowKey(n), n.description);
           });
           return rows.map((row, i) => {
             const n = normalizeSheetRow(row, i);
-            if (n.description) return row;
-            const desc = descMap.get((n.title + '|' + n.company).toLowerCase());
-            if (!desc) return row;
-            return Object.assign({}, row, { description: desc, Description: desc });
+            const sheetDesc = descByKey.get(jobRowKey(n));
+            if (!sheetDesc) return row;
+            return Object.assign({}, row, { description: sheetDesc, Description: sheetDesc });
           });
         } catch (e) {
-          console.warn('Description merge:', e.message);
+          console.warn('Description sync:', e.message);
           return rows;
         }
       }
@@ -1271,7 +1290,7 @@
           console.warn('Google Sheet:', e.message);
         }
         if (rows.length) {
-          rows = await enrichRowsWithDescriptions(rows);
+          rows = await syncDescriptionsFromSheet(rows);
           saveGoogleJobsToCache(rows);
           await persistJobsToDisk(rows);
         }
@@ -1400,16 +1419,41 @@
       const jobDescBackdrop = document.getElementById('jobDescBackdrop');
       const jobDescClose = document.getElementById('jobDescClose');
       const jobDescTitle = document.getElementById('jobDescTitle');
+      const jobDescScroll = document.getElementById('jobDescScroll');
+      const jobDescFirstLine = document.getElementById('jobDescFirstLine');
       const jobDescText = document.getElementById('jobDescText');
       const jobDescApply = document.getElementById('jobDescApply');
+
+      function splitDescription(text) {
+        const full = String(text || '').trim();
+        if (!full) return { first: '', rest: '' };
+        const lines = full.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+        if (lines.length > 1) {
+          return { first: lines[0], rest: lines.slice(1).join('\n') };
+        }
+        const sentenceEnd = full.search(/[.!?](\s|$)/);
+        if (sentenceEnd > 0 && sentenceEnd < full.length - 1) {
+          return {
+            first: full.slice(0, sentenceEnd + 1).trim(),
+            rest: full.slice(sentenceEnd + 1).trim()
+          };
+        }
+        return { first: full, rest: '' };
+      }
 
       function openJobDescModal(job) {
         const titleCase = (s) => String(s || '').replace(/\b\w/g, c => c.toUpperCase());
         descModalJobTitle = job.title || '';
         jobDescTitle.textContent = titleCase(job.title);
-        jobDescText.textContent = (job.description && String(job.description).trim())
+        const fullDesc = (job.description && String(job.description).trim())
           ? job.description
           : 'No job description has been added for this role yet. Please contact us or apply to learn more.';
+        const parts = splitDescription(fullDesc);
+        jobDescFirstLine.textContent = parts.first;
+        jobDescFirstLine.classList.toggle('hidden', !parts.first);
+        jobDescText.textContent = parts.rest || (parts.first && !parts.rest ? '' : fullDesc);
+        jobDescText.classList.toggle('hidden', !jobDescText.textContent);
+        if (jobDescScroll) jobDescScroll.scrollTop = 0;
         jobDescModal.classList.remove('hidden');
         jobDescModal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('no-scroll');
